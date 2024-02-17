@@ -54,4 +54,6 @@ void updateParticles(vector<Particle>& particles);
 
 void drawParticles(const vector<Particle>& particles);
 
+void initgame();
+
 #endif 
