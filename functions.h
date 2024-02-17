@@ -17,6 +17,7 @@ struct Asteroid {
     int y;
     int size;
     bool active;
+    
 };
 
 struct Particle {

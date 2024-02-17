@@ -4,6 +4,7 @@
 #include <thread>
 
 
+
 Rectangle answear1 = { 150, 325, 200, 50 };
 Rectangle answear2 = { 150, 400, 200, 50 };
 Rectangle answear3 = { 150, 475, 200, 50 };
@@ -18,19 +19,27 @@ int AsteroidSpawnTime = 4;
 
 int points = 0;
 
+
+
+
 void movement(int& sposx, int& sposy) {
     if (IsKeyDown(KEY_RIGHT)) {
         sposx += movementSpeed;
+        
     }
     if (IsKeyDown(KEY_LEFT)) {
         sposx -= movementSpeed;
+        
     }
     if (IsKeyDown(KEY_UP)) {
         sposy -= movementSpeed;
+        
     }
     if (IsKeyDown(KEY_DOWN)) {
         sposy += movementSpeed;
+        
     }
+    
 }
 
 void updateLaser(Laser& laser) {
@@ -45,7 +54,7 @@ void updateLaser(Laser& laser) {
 
 void drawLaser(Laser& laser) {
     if (laser.active) {
-        DrawRectangle(laser.x, laser.y, 5, 20, RED);
+        DrawRectangle(laser.x+21, laser.y, 5, 20, RED);
     }
 }
 
@@ -73,8 +82,9 @@ void drawLaserParticles(const vector<LaserParticle>& particles) {
 void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particles) {
     if (asteroid.active) {
         asteroid.y += asteroidspeed;
-
+        
         if (CheckCollisionRecs({ (float)laser.x, (float)laser.y, 5, 20 }, { (float)asteroid.x - asteroid.size / 2, (float)asteroid.y - asteroid.size / 2, (float)asteroid.size, (float)asteroid.size })) {
+            
             
             DrawRectangle(100, 250, 600, 400, GRAY);
 
@@ -141,13 +151,22 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
 
         if (asteroid.y >= 800) {
             asteroid.active = false;
+            for (int i = 0; i < 30; ++i) {
+                Particle particle;
+                particle.position = { static_cast<float>(asteroid.x), static_cast<float>(asteroid.y) };
+                particle.velocity = { static_cast<float>(GetRandomValue(-5, 5)), static_cast<float>(GetRandomValue(-5, 5)) };
+                particle.color = GRAY;
+                particle.radius = GetRandomValue(1, 3);
+                particle.active = true;
+                particles.push_back(particle);
+            }
         }
     }
 }
 
-void drawAsteroid(const Asteroid& asteroid) {
+void drawAsteroid(const Asteroid& asteroid, Texture2D texture) {
     if (asteroid.active) {
-        DrawCircle(asteroid.x, asteroid.y, asteroid.size / 2, GRAY);
+        DrawTexture(texture, asteroid.x, asteroid.y, WHITE);
     }
 }
 
@@ -168,10 +187,11 @@ void drawParticles(const vector<Particle>& particles) {
     }
 }
 
+
 void initgame()
 {
     int sposx = 375;
-    int sposy = 400;
+    int sposy = 700;
 
     int windowsHeight = 850;
     int windowsWidth = 800;
@@ -184,15 +204,18 @@ void initgame()
 
     InitWindow(windowsWidth, windowsHeight, "AstoGame");
     SetTargetFPS(60);
-
+    Texture2D ship = LoadTexture("resources/ship.png");
+    Texture2D asteroid = LoadTexture("resources/asteroid.png");
+    Texture2D background = LoadTexture("resources/background.png");
     chrono::steady_clock::time_point lastSpawnTime = chrono::steady_clock::now();
-
+    
     while (!WindowShouldClose()) {
         auto start = chrono::steady_clock::now();
         BeginDrawing();
-        ClearBackground(BLACK);
         
-        DrawRectangle(sposx, sposy, 50, 50, YELLOW);
+        DrawTexture(background,0, 0,WHITE);
+        DrawTexture(ship,sposx, sposy,WHITE);
+        
         movement(sposx, sposy);
 
         if (IsKeyPressed(KEY_F)) {
@@ -229,7 +252,7 @@ void initgame()
 
         for (size_t i = 0; i < asteroids.size(); ++i) {
             updateAsteroid(asteroids[i], laser, particles);
-            drawAsteroid(asteroids[i]);
+            drawAsteroid(asteroids[i], asteroid); 
         }
 
         updateParticles(particles);
