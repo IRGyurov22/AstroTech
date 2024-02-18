@@ -19,8 +19,8 @@ int AsteroidSpawnTime = 4;
 
 int points = 0;
 
-
-
+bool IsSound = 0;
+bool IsShootingAllowed = 1;
 
 void movement(int& sposx, int& sposy) {
     if (IsKeyDown(KEY_RIGHT)) {
@@ -92,23 +92,23 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
             movementSpeed = 0;
             asteroidspeed = 0;
             AsteroidSpawnTime = 999999;
-
+            IsShootingAllowed = 0;
             int QuestionNumber = GetRandomValue(1, 1);
 
             if (QuestionNumber == 1)
             {
                 DrawText("TEST", 200, 275, 15, BLACK);
-                DrawRectangleRec(answear1, WHITE);
+                DrawRectangleRec(answear1, BLANK);
                 DrawText("TEST", 160, 335, 15, BLACK);
-                DrawRectangleRec(answear2, WHITE);
+                DrawRectangleRec(answear2, BLANK);
                 DrawText("TEST", 160, 410, 15, BLACK);
-                DrawRectangleRec(answear3, WHITE);
+                DrawRectangleRec(answear3, BLANK);
                 DrawText("TEST", 160, 485, 15, BLACK);
-                DrawRectangleRec(answear4, WHITE);
+                DrawRectangleRec(answear4, BLANK);
                 DrawText("TEST", 160, 560, 15, BLACK);
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
                 {
-                    IsQuestionAnsweared = 0;
+                    IsQuestionAnsweared = 1;
                 }
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
                 {
@@ -117,11 +117,11 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 }
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
                 {
-                    IsQuestionAnsweared = 0;
+                    IsQuestionAnsweared = 1;
                 }
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
                 {
-                    IsQuestionAnsweared = 0;
+                    IsQuestionAnsweared = 1;
                 }
             }
             if (IsQuestionAnsweared == 1)
@@ -144,7 +144,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 movementSpeed = 4;
                 asteroidspeed = 2;
                 AsteroidSpawnTime = 4;
-
+                IsShootingAllowed = 1;
             }
             
         }
@@ -201,12 +201,15 @@ void initgame()
     vector<Asteroid> asteroids;
     vector<Particle> particles;
     vector<LaserParticle> laserParticles;
-
+    InitAudioDevice();
     InitWindow(windowsWidth, windowsHeight, "AstoGame");
     SetTargetFPS(60);
+
     Texture2D ship = LoadTexture("resources/ship.png");
     Texture2D asteroid = LoadTexture("resources/asteroid.png");
     Texture2D background = LoadTexture("resources/background.png");
+
+    Sound bgm = LoadSound("Sound/SpaceExploration.wav");
     chrono::steady_clock::time_point lastSpawnTime = chrono::steady_clock::now();
     
     while (!WindowShouldClose()) {
@@ -217,8 +220,12 @@ void initgame()
         DrawTexture(ship,sposx, sposy,WHITE);
         
         movement(sposx, sposy);
-
-        if (IsKeyPressed(KEY_F)) {
+        if (IsSound == 0)
+        {
+            PlaySound(bgm);
+            IsSound = 1;
+        }
+        if (IsKeyPressed(KEY_F) && IsShootingAllowed == 1) {
             laser.active = true;
             laser.x = sposx + 25;
             laser.y = sposy;
