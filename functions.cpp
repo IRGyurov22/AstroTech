@@ -230,9 +230,9 @@ void initgame()
     InitWindow(windowsWidth, windowsHeight, "AstoGame");
     SetTargetFPS(60);
 
-    Texture2D ship = LoadTexture("resources/ship.png");
-    Texture2D asteroid = LoadTexture("resources/asteroid.png");
-    Texture2D background = LoadTexture("resources/background.png");
+    Texture2D ship = LoadTexture("resources/photos/ship.png");
+    Texture2D asteroid = LoadTexture("resources/photos/asteroid.png");
+    Texture2D background = LoadTexture("resources/photos/background.png");
 
     Sound bgm = LoadSound("Sound/SpaceExploration.wav");
     chrono::steady_clock::time_point lastSpawnTime = chrono::steady_clock::now();

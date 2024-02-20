@@ -20,7 +20,6 @@ int main()
     while (!WindowShouldClose())
     {
         BeginDrawing();
-        ClearBackground(BLACK);
         DrawRectangleRec(start, WHITE);
         DrawRectangleRec(settings, WHITE);
         DrawRectangleRec(exit, WHITE);
