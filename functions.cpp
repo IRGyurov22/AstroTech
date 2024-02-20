@@ -3,7 +3,14 @@
 #include <chrono>
 #include <thread>
 
+#if defined(PLATFORM_DESKTOP)
+#define GLSL_VERSION            330
+#else   
+#define GLSL_VERSION            100
+#endif
 
+int windowsHeight = 850;
+int windowsWidth = 800;
 
 Rectangle answear1 = { 150, 325, 200, 50 };
 Rectangle answear2 = { 150, 400, 200, 50 };
@@ -21,6 +28,11 @@ int points = 0;
 
 bool IsSound = 0;
 bool IsShootingAllowed = 1;
+bool useShader = 1;
+
+Vector2 laserPosition = { 0, 0 }; 
+float laserIntensity = 0.0f;
+Vector3 laserColor = { 1.0f, 0.0f, 0.0f };
 
 void movement(int& sposx, int& sposy) {
     if (IsKeyDown(KEY_RIGHT)) {
@@ -45,16 +57,16 @@ void movement(int& sposx, int& sposy) {
 void updateLaser(Laser& laser) {
     if (laser.active) {
         laser.y -= laserspeed;
-
         if (laser.y <= 0) {
-            laser.active = false;
+            laser.active = false; 
         }
     }
 }
 
+
 void drawLaser(Laser& laser) {
     if (laser.active) {
-        DrawRectangle(laser.x+21, laser.y, 5, 20, RED);
+        DrawRectangle(laser.x+21, laser.y, 5, 20, BLANK);
     }
 }
 
@@ -64,12 +76,13 @@ void updateLaserParticles(vector<LaserParticle>& particles) {
             particle.position.x += particle.velocity.x;
             particle.position.y += particle.velocity.y;
             particle.lifeSpan--;
-            if (particle.lifeSpan <= 0) {
-                particle.active = false;
+            if (particle.lifeSpan <= 0 || particle.position.y <= 0) {
+                particle.active = false; 
             }
         }
     }
 }
+
 
 void drawLaserParticles(const vector<LaserParticle>& particles) {
     for (const auto& particle : particles) {
@@ -93,19 +106,20 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
             asteroidspeed = 0;
             AsteroidSpawnTime = 999999;
             IsShootingAllowed = 0;
+            useShader = 0;
             int QuestionNumber = GetRandomValue(1, 1);
 
             if (QuestionNumber == 1)
             {
-                DrawText("TEST", 200, 275, 15, BLACK);
+                DrawText("TEST", 200, 275, 15, WHITE);
                 DrawRectangleRec(answear1, BLANK);
-                DrawText("TEST", 160, 335, 15, BLACK);
+                DrawText("TEST", 160, 335, 15, WHITE);
                 DrawRectangleRec(answear2, BLANK);
-                DrawText("TEST", 160, 410, 15, BLACK);
+                DrawText("TEST", 160, 410, 15, WHITE);
                 DrawRectangleRec(answear3, BLANK);
-                DrawText("TEST", 160, 485, 15, BLACK);
+                DrawText("TEST", 160, 485, 15, WHITE);
                 DrawRectangleRec(answear4, BLANK);
-                DrawText("TEST", 160, 560, 15, BLACK);
+                DrawText("TEST", 160, 560, 15, WHITE);
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
                 {
                     IsQuestionAnsweared = 1;
@@ -129,7 +143,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 asteroid.active = false;
                 laser.active = false;
 
-                for (int i = 0; i < 30; ++i) {
+                for (int i = 0; i < 30; i++) {
                     Particle particle;
                     particle.position = { static_cast<float>(asteroid.x), static_cast<float>(asteroid.y) };
                     particle.velocity = { static_cast<float>(GetRandomValue(-5, 5)), static_cast<float>(GetRandomValue(-5, 5)) };
@@ -145,13 +159,15 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 asteroidspeed = 2;
                 AsteroidSpawnTime = 4;
                 IsShootingAllowed = 1;
+                useShader = 1;
+                laser.y = 1000;
             }
             
         }
 
-        if (asteroid.y >= 800) {
+        if (asteroid.y >= windowsHeight) {
             asteroid.active = false;
-            for (int i = 0; i < 30; ++i) {
+            for (int i = 0; i < 30; i++) {
                 Particle particle;
                 particle.position = { static_cast<float>(asteroid.x), static_cast<float>(asteroid.y) };
                 particle.velocity = { static_cast<float>(GetRandomValue(-5, 5)), static_cast<float>(GetRandomValue(-5, 5)) };
@@ -187,14 +203,23 @@ void drawParticles(const vector<Particle>& particles) {
     }
 }
 
+void updateLaserPositionAndIntensity(const Laser& laser) {
+    laserPosition.x = laser.x-25;
+    laserPosition.y = laser.y;
+    laserIntensity = 5.0f;
+    if (laserPosition.y<=0)
+    {
+        laserPosition.y = 1000;
+        laserPosition.x = 1000;
+    }
+}
 
 void initgame()
 {
     int sposx = 375;
     int sposy = 700;
 
-    int windowsHeight = 850;
-    int windowsWidth = 800;
+    
 
     Laser laser = { 0, 0, false };
 
@@ -212,9 +237,36 @@ void initgame()
     Sound bgm = LoadSound("Sound/SpaceExploration.wav");
     chrono::steady_clock::time_point lastSpawnTime = chrono::steady_clock::now();
     
+    Shader lighting = LoadShader("resources/shaders/lighting.vs","resources/shaders/lighting.fs");
+    float lightPos[] = { 0.0f, 0.0f }; 
+    SetShaderValue(lighting, GetShaderLocation(lighting, "lightPos"), lightPos, SHADER_UNIFORM_VEC2);
+
+    float lightColor[] = { 1.0f, 1.0f, 1.0f };
+    SetShaderValue(lighting, GetShaderLocation(lighting, "lightColor"), lightColor, SHADER_UNIFORM_VEC3);
+
+    float viewPos[] = { 0.0f, 0.0f }; 
+    SetShaderValue(lighting, GetShaderLocation(lighting, "viewPos"), viewPos, SHADER_UNIFORM_VEC2);
+
+    
+    int ambientStrengthLocation = GetShaderLocation(lighting, "ambientStrength");
+    float ambientStrength = 0.1f; 
+    SetShaderValue(lighting, ambientStrengthLocation, &ambientStrength, SHADER_UNIFORM_FLOAT);
+
+
     while (!WindowShouldClose()) {
         auto start = chrono::steady_clock::now();
         BeginDrawing();
+        if (useShader == 1)
+        {
+            BeginShaderMode(lighting);
+
+            updateLaserPositionAndIntensity(laser);
+
+            SetShaderValue(lighting, GetShaderLocation(lighting, "lightPos"), &laserPosition, SHADER_UNIFORM_VEC2);
+            SetShaderValue(lighting, GetShaderLocation(lighting, "lightIntensity"), &laserIntensity, SHADER_UNIFORM_FLOAT);
+            SetShaderValue(lighting, GetShaderLocation(lighting, "lightColor"), &laserColor, SHADER_UNIFORM_VEC3);
+
+        }
         
         DrawTexture(background,0, 0,WHITE);
         DrawTexture(ship,sposx, sposy,WHITE);
@@ -230,7 +282,7 @@ void initgame()
             laser.x = sposx + 25;
             laser.y = sposy;
 
-            for (int i = 0; i < 10; ++i) {
+            for (int i = 0; i < 10; i++) {
                 LaserParticle particle;
                 particle.position = { static_cast<float>(laser.x), static_cast<float>(laser.y) };
                 particle.velocity = { static_cast<float>(GetRandomValue(-2, 2)), static_cast<float>(GetRandomValue(-2, 2)) };
@@ -241,9 +293,10 @@ void initgame()
                 laserParticles.push_back(particle);
             }
         }
+        
 
         updateLaser(laser);
-        drawLaser(laser);
+        
         updateLaserParticles(laserParticles);
         drawLaserParticles(laserParticles);
         chrono::steady_clock::time_point currentTime = chrono::steady_clock::now();
@@ -257,18 +310,19 @@ void initgame()
             lastSpawnTime = currentTime;
         }
 
-        for (size_t i = 0; i < asteroids.size(); ++i) {
-            updateAsteroid(asteroids[i], laser, particles);
-            drawAsteroid(asteroids[i], asteroid); 
-        }
+        
 
         updateParticles(particles);
         drawParticles(particles);
-
+        for (size_t i = 0; i < asteroids.size(); i++) {
+            updateAsteroid(asteroids[i], laser, particles);
+            drawAsteroid(asteroids[i], asteroid);
+        }
         asteroids.erase(remove_if(asteroids.begin(), asteroids.end(), [](const Asteroid& a) { return !a.active; }), asteroids.end());
 
+        EndShaderMode();
         EndDrawing();
-
+        
         auto end = chrono::steady_clock::now();
         auto diff = end - start;
         if (diff < chrono::milliseconds(16)) {
