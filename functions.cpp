@@ -12,6 +12,7 @@
 int windowsHeight = 850;
 int windowsWidth = 800;
 
+
 Rectangle answear1 = { 150, 325, 200, 50 };
 Rectangle answear2 = { 150, 400, 200, 50 };
 Rectangle answear3 = { 150, 475, 200, 50 };
@@ -19,7 +20,7 @@ Rectangle answear4 = { 150, 550, 200, 50 };
 
 int laserspeed = 7;
 int movementSpeed = 4;
-int asteroidspeed = 2; 
+int asteroidspeed = 2;
 
 bool IsQuestionAnsweared = 0;
 int AsteroidSpawnTime = 4;
@@ -30,35 +31,36 @@ bool IsSound = 0;
 bool IsShootingAllowed = 1;
 bool useShader = 1;
 
-Vector2 laserPosition = { 0, 0 }; 
+
+Vector2 laserPosition = { 0, 0 };
 float laserIntensity = 0.0f;
 Vector3 laserColor = { 1.0f, 0.0f, 0.0f };
 
 void movement(int& sposx, int& sposy) {
     if (IsKeyDown(KEY_RIGHT)) {
         sposx += movementSpeed;
-        
+
     }
     if (IsKeyDown(KEY_LEFT)) {
         sposx -= movementSpeed;
-        
+
     }
     if (IsKeyDown(KEY_UP)) {
         sposy -= movementSpeed;
-        
+
     }
     if (IsKeyDown(KEY_DOWN)) {
         sposy += movementSpeed;
-        
+
     }
-    
+
 }
 
 void updateLaser(Laser& laser) {
     if (laser.active) {
         laser.y -= laserspeed;
         if (laser.y <= 0) {
-            laser.active = false; 
+            laser.active = false;
         }
     }
 }
@@ -66,7 +68,7 @@ void updateLaser(Laser& laser) {
 
 void drawLaser(Laser& laser) {
     if (laser.active) {
-        DrawRectangle(laser.x+21, laser.y, 5, 20, BLANK);
+        DrawRectangle(laser.x + 21, laser.y, 5, 20, BLANK);
     }
 }
 
@@ -77,7 +79,7 @@ void updateLaserParticles(vector<LaserParticle>& particles) {
             particle.position.y += particle.velocity.y;
             particle.lifeSpan--;
             if (particle.lifeSpan <= 0 || particle.position.y <= 0) {
-                particle.active = false; 
+                particle.active = false;
             }
         }
     }
@@ -92,14 +94,14 @@ void drawLaserParticles(const vector<LaserParticle>& particles) {
     }
 }
 
-void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particles) {
-    if (asteroid.active) {
+void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particles, Texture2D TextWindow) {
+    if (asteroid.active ) {
         asteroid.y += asteroidspeed;
-        
-        if (CheckCollisionRecs({ (float)laser.x, (float)laser.y, 5, 20 }, { (float)asteroid.x - asteroid.size / 2, (float)asteroid.y - asteroid.size / 2, (float)asteroid.size, (float)asteroid.size })) {
-            
-            
-            DrawRectangle(100, 250, 600, 400, GRAY);
+
+        if (CheckCollisionRecs({ (float)laser.x, (float)laser.y, 5, 20 }, { (float)asteroid.x - asteroid.size / 2, (float)asteroid.y - asteroid.size / 2, (float)asteroid.size, (float)asteroid.size }) ) {
+
+
+            DrawTexture(TextWindow,0, 75, GRAY);
 
             laserspeed = 0;
             movementSpeed = 0;
@@ -111,15 +113,15 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
 
             if (QuestionNumber == 1)
             {
-                DrawText("TEST", 200, 275, 15, WHITE);
+                DrawText("TEST", 200, 300, 15, BLACK);
                 DrawRectangleRec(answear1, BLANK);
-                DrawText("TEST", 160, 335, 15, WHITE);
+                DrawText("TEST", 160, 355, 15, BLACK);
                 DrawRectangleRec(answear2, BLANK);
-                DrawText("TEST", 160, 410, 15, WHITE);
+                DrawText("TEST", 160, 430, 15, BLACK);
                 DrawRectangleRec(answear3, BLANK);
-                DrawText("TEST", 160, 485, 15, WHITE);
+                DrawText("TEST", 160, 505, 15, BLACK);
                 DrawRectangleRec(answear4, BLANK);
-                DrawText("TEST", 160, 560, 15, WHITE);
+                DrawText("TEST", 160, 570, 15, BLACK);
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
                 {
                     IsQuestionAnsweared = 1;
@@ -142,7 +144,6 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
             {
                 asteroid.active = false;
                 laser.active = false;
-
                 for (int i = 0; i < 30; i++) {
                     Particle particle;
                     particle.position = { static_cast<float>(asteroid.x), static_cast<float>(asteroid.y) };
@@ -152,7 +153,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                     particle.active = true;
                     particles.push_back(particle);
                 }
-
+                
                 IsQuestionAnsweared = 0;
                 laserspeed = 7;
                 movementSpeed = 4;
@@ -162,7 +163,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 useShader = 1;
                 laser.y = 1000;
             }
-            
+
         }
 
         if (asteroid.y >= windowsHeight) {
@@ -204,22 +205,25 @@ void drawParticles(const vector<Particle>& particles) {
 }
 
 void updateLaserPositionAndIntensity(const Laser& laser) {
-    laserPosition.x = laser.x-25;
+    laserPosition.x = laser.x - 25;
     laserPosition.y = laser.y;
-    laserIntensity = 5.0f;
-    if (laserPosition.y<=0)
+    laserIntensity = 5.0;
+    if (laserPosition.y <= 0)
     {
         laserPosition.y = 1000;
         laserPosition.x = 1000;
     }
 }
-
+void drawPoints(int points) {
+    std::string pointsStr = std::to_string(points);
+    DrawText(("Points: " + pointsStr).c_str(), 0, 0, 20, WHITE);
+}
 void initgame()
 {
     int sposx = 375;
     int sposy = 700;
 
-    
+
 
     Laser laser = { 0, 0, false };
 
@@ -230,32 +234,34 @@ void initgame()
     InitWindow(windowsWidth, windowsHeight, "AstoGame");
     SetTargetFPS(60);
 
+    Texture2D TextWindow = LoadTexture("resources/photos/QuestionTextBox.png");
     Texture2D ship = LoadTexture("resources/photos/ship.png");
     Texture2D asteroid = LoadTexture("resources/photos/asteroid.png");
     Texture2D background = LoadTexture("resources/photos/background.png");
 
     Sound bgm = LoadSound("Sound/SpaceExploration.wav");
     chrono::steady_clock::time_point lastSpawnTime = chrono::steady_clock::now();
-    
-    Shader lighting = LoadShader("resources/shaders/lighting.vs","resources/shaders/lighting.fs");
-    float lightPos[] = { 0.0f, 0.0f }; 
+
+    Shader lighting = LoadShader("resources/shaders/lighting.vs", "resources/shaders/lighting.fs");
+    float lightPos[] = { 0.0, 0.0 };
     SetShaderValue(lighting, GetShaderLocation(lighting, "lightPos"), lightPos, SHADER_UNIFORM_VEC2);
 
-    float lightColor[] = { 1.0f, 1.0f, 1.0f };
+    float lightColor[] = { 1.0, 1.0, 1.0 };
     SetShaderValue(lighting, GetShaderLocation(lighting, "lightColor"), lightColor, SHADER_UNIFORM_VEC3);
 
-    float viewPos[] = { 0.0f, 0.0f }; 
+    float viewPos[] = { 0.0, 0.0 };
     SetShaderValue(lighting, GetShaderLocation(lighting, "viewPos"), viewPos, SHADER_UNIFORM_VEC2);
 
-    
+
     int ambientStrengthLocation = GetShaderLocation(lighting, "ambientStrength");
-    float ambientStrength = 0.1f; 
+    float ambientStrength = 0.3;
     SetShaderValue(lighting, ambientStrengthLocation, &ambientStrength, SHADER_UNIFORM_FLOAT);
 
 
     while (!WindowShouldClose()) {
         auto start = chrono::steady_clock::now();
         BeginDrawing();
+        
         if (useShader == 1)
         {
             BeginShaderMode(lighting);
@@ -267,10 +273,9 @@ void initgame()
             SetShaderValue(lighting, GetShaderLocation(lighting, "lightColor"), &laserColor, SHADER_UNIFORM_VEC3);
 
         }
-        
-        DrawTexture(background,0, 0,WHITE);
-        DrawTexture(ship,sposx, sposy,WHITE);
-        
+        DrawTexture(background, 0, 0, WHITE);
+        DrawTexture(ship, sposx, sposy, WHITE);
+
         movement(sposx, sposy);
         if (IsSound == 0)
         {
@@ -293,10 +298,10 @@ void initgame()
                 laserParticles.push_back(particle);
             }
         }
-        
+
 
         updateLaser(laser);
-        
+
         updateLaserParticles(laserParticles);
         drawLaserParticles(laserParticles);
         chrono::steady_clock::time_point currentTime = chrono::steady_clock::now();
@@ -310,19 +315,21 @@ void initgame()
             lastSpawnTime = currentTime;
         }
 
-        
-
-        updateParticles(particles);
-        drawParticles(particles);
-        for (size_t i = 0; i < asteroids.size(); i++) {
-            updateAsteroid(asteroids[i], laser, particles);
+        for (int i = 0; i < asteroids.size(); i++) {
+            updateAsteroid(asteroids[i], laser, particles, TextWindow);
             drawAsteroid(asteroids[i], asteroid);
         }
+        updateParticles(particles);
+        drawParticles(particles);
+        
         asteroids.erase(remove_if(asteroids.begin(), asteroids.end(), [](const Asteroid& a) { return !a.active; }), asteroids.end());
 
         EndShaderMode();
-        EndDrawing();
         
+        drawPoints(points);
+
+        EndDrawing();
+
         auto end = chrono::steady_clock::now();
         auto diff = end - start;
         if (diff < chrono::milliseconds(16)) {
