@@ -2,7 +2,7 @@
 #include "raylib.h"
 #include <chrono>
 #include <thread>
-
+#include <string>
 #if defined(PLATFORM_DESKTOP)
 #define GLSL_VERSION            330
 #else   
@@ -95,13 +95,13 @@ void drawLaserParticles(const vector<LaserParticle>& particles) {
 }
 
 void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particles, Texture2D TextWindow) {
-    if (asteroid.active ) {
+    if (asteroid.active) {
         asteroid.y += asteroidspeed;
 
-        if (CheckCollisionRecs({ (float)laser.x, (float)laser.y, 5, 20 }, { (float)asteroid.x - asteroid.size / 2, (float)asteroid.y - asteroid.size / 2, (float)asteroid.size, (float)asteroid.size }) ) {
+        if (CheckCollisionRecs({ (float)laser.x, (float)laser.y, 5, 20 }, { (float)asteroid.x - asteroid.size / 2, (float)asteroid.y - asteroid.size / 2, (float)asteroid.size, (float)asteroid.size })) {
 
 
-            DrawTexture(TextWindow,0, 75, GRAY);
+            DrawTexture(TextWindow, 0, 75, GRAY);
 
             laserspeed = 0;
             movementSpeed = 0;
@@ -153,7 +153,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                     particle.active = true;
                     particles.push_back(particle);
                 }
-                
+
                 IsQuestionAnsweared = 0;
                 laserspeed = 7;
                 movementSpeed = 4;
@@ -216,7 +216,7 @@ void updateLaserPositionAndIntensity(const Laser& laser) {
 }
 void drawPoints(int points) {
     std::string pointsStr = std::to_string(points);
-    DrawText(("Points: " + pointsStr).c_str(), 0, 0, 20, WHITE);
+    DrawText(("Score: " + pointsStr).c_str(), 0, 0, 20, WHITE);
 }
 void initgame()
 {
@@ -261,7 +261,7 @@ void initgame()
     while (!WindowShouldClose()) {
         auto start = chrono::steady_clock::now();
         BeginDrawing();
-        
+
         if (useShader == 1)
         {
             BeginShaderMode(lighting);
@@ -282,7 +282,7 @@ void initgame()
             PlaySound(bgm);
             IsSound = 1;
         }
-        if (IsKeyPressed(KEY_F) && IsShootingAllowed == 1) {
+        if (IsKeyPressed(KEY_SPACE) && IsShootingAllowed == 1) {
             laser.active = true;
             laser.x = sposx + 25;
             laser.y = sposy;
@@ -321,11 +321,11 @@ void initgame()
         }
         updateParticles(particles);
         drawParticles(particles);
-        
+
         asteroids.erase(remove_if(asteroids.begin(), asteroids.end(), [](const Asteroid& a) { return !a.active; }), asteroids.end());
 
         EndShaderMode();
-        
+
         drawPoints(points);
 
         EndDrawing();
