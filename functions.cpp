@@ -13,10 +13,10 @@ int windowsHeight = 850;
 int windowsWidth = 800;
 
 
-Rectangle answear1 = { 150, 325, 200, 50 };
-Rectangle answear2 = { 150, 400, 200, 50 };
-Rectangle answear3 = { 150, 475, 200, 50 };
-Rectangle answear4 = { 150, 550, 200, 50 };
+Rectangle answear1 = { 150, 400, 200, 50 };
+Rectangle answear2 = { 150, 440, 200, 50 };
+Rectangle answear3 = { 150, 465, 200, 50 };
+Rectangle answear4 = { 150, 490, 200, 50 };
 
 int laserspeed = 7;
 int movementSpeed = 4;
@@ -31,6 +31,7 @@ bool IsSound = 0;
 bool IsShootingAllowed = 1;
 bool useShader = 1;
 
+int QuestionNumber = GetRandomValue(1, 12);
 
 Vector2 laserPosition = { 0, 0 };
 float laserIntensity = 0.0f;
@@ -38,19 +39,46 @@ Vector3 laserColor = { 1.0f, 0.0f, 0.0f };
 
 void movement(int& sposx, int& sposy) {
     if (IsKeyDown(KEY_RIGHT)) {
-        sposx += movementSpeed;
-
+        if (sposx + movementSpeed > 800)
+        {
+            sposx = 800;
+        }
+        else
+        {
+            sposx += movementSpeed;
+        }
     }
     if (IsKeyDown(KEY_LEFT)) {
-        sposx -= movementSpeed;
+        if (sposx - movementSpeed < 0)
+        {
+            sposx = 0;
+        }
+        else
+        {
+            sposx -= movementSpeed;
+        }
 
     }
     if (IsKeyDown(KEY_UP)) {
-        sposy -= movementSpeed;
+        if (sposy - movementSpeed < 0)
+        {
+            sposy = 0;
+        }
+        else
+        {
+            sposy -= movementSpeed;
+        }
 
     }
     if (IsKeyDown(KEY_DOWN)) {
-        sposy += movementSpeed;
+        if (sposy +  movementSpeed > 800)
+        {
+            sposy = 800;
+        }
+        else
+        {
+            sposy += movementSpeed;
+        }
 
     }
 
@@ -102,26 +130,26 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
 
 
             DrawTexture(TextWindow, 0, 75, GRAY);
-
+      
             laserspeed = 0;
             movementSpeed = 0;
             asteroidspeed = 0;
             AsteroidSpawnTime = 999999;
             IsShootingAllowed = 0;
             useShader = 0;
-            int QuestionNumber = GetRandomValue(1, 1);
-
-            if (QuestionNumber == 1)
+            
+            switch (QuestionNumber)
             {
-                DrawText("TEST", 200, 300, 15, BLACK);
+            case 1:
+                DrawText("A projectile fired with initial velocity u at some angle 0 has a range R.\n If the initial velocity be doubled keeping the angle of projection same,\n then the range will be", 150, 325, 16, BLACK);
                 DrawRectangleRec(answear1, BLANK);
-                DrawText("TEST", 160, 355, 15, BLACK);
+                DrawText("R/2", 160, 415, 15, BLACK);
                 DrawRectangleRec(answear2, BLANK);
-                DrawText("TEST", 160, 430, 15, BLACK);
+                DrawText("4R", 160, 440, 15, BLACK);
                 DrawRectangleRec(answear3, BLANK);
-                DrawText("TEST", 160, 505, 15, BLACK);
+                DrawText("2R", 160, 465, 15, BLACK);
                 DrawRectangleRec(answear4, BLANK);
-                DrawText("TEST", 160, 570, 15, BLACK);
+                DrawText("None of the above", 160, 490, 15, BLACK);
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
                 {
                     IsQuestionAnsweared = 1;
@@ -139,7 +167,317 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 {
                     IsQuestionAnsweared = 1;
                 }
+                break;
+            case 2:
+                DrawText("Choose the incorrect statement from \n the following regarding magnetic lines of field -", 150, 325, 16, BLACK);
+                DrawRectangleRec(answear1, BLANK);
+                DrawText("The direction of magnetic field at a point is taken to be the direction in which \n the north Pole of a magnetic compass needle points.", 160, 415, 15, BLACK);
+                DrawRectangleRec(answear2, BLANK);
+                DrawText("Magnetlc field lines are closed curves.", 160, 450, 15, BLACK);
+                DrawRectangleRec(answear3, BLANK);
+                DrawText("If magnetic field lines are parallel and equidistant, they represent \n zero field strength.", 160, 475, 15, BLACK);
+                DrawRectangleRec(answear4, BLANK);
+                DrawText("None of the above", 160, 520, 15, BLACK);
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
+                {
+                    IsQuestionAnsweared = 1;
+                    points++;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                break;
+            case 3:
+                DrawText("What type of waves are light wave?", 150, 325, 16, BLACK);
+                DrawRectangleRec(answear1, BLANK);
+                DrawText("Transverse wave", 160, 425, 15, BLACK);
+                DrawRectangleRec(answear2, BLANK);
+                DrawText("Longitudinal wave", 160, 460, 15, BLACK);
+                DrawRectangleRec(answear3, BLANK);
+                DrawText("Both A & B", 160, 485, 15, BLACK);
+                DrawRectangleRec(answear4, BLANK);
+                DrawText("None", 160, 510, 15, BLACK);
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
+                {
+                    IsQuestionAnsweared = 1;
+                    points++;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                    break;
+            case 4:
+                DrawText("A 220 V, 100 W bulb is connected to a 110 V source. \n Calculate the power consumed by the bulb.", 150, 325, 16, BLACK);
+                DrawRectangleRec(answear1, BLANK);
+                DrawText("10W", 160, 425, 15, BLACK);
+                DrawRectangleRec(answear2, BLANK);
+                DrawText("15W", 160, 460, 15, BLACK);
+                DrawRectangleRec(answear3, BLANK);
+                DrawText("20W", 160, 485, 15, BLACK);
+                DrawRectangleRec(answear4, BLANK);
+                DrawText("25W", 160, 510, 15, BLACK);
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                {
+                    IsQuestionAnsweared = 1;
+                    points++;
+                }
+                break;
+            case 5:
+                DrawText("The instrument _________ is used for detecting electric current is", 150, 350, 16, BLACK);
+                DrawRectangleRec(answear1, BLANK);
+                DrawText("Galvanometer", 160, 425, 15, BLACK);
+                DrawRectangleRec(answear2, BLANK);
+                DrawText("Tube tester", 160, 460, 15, BLACK);
+                DrawRectangleRec(answear3, BLANK);
+                DrawText("Altimeter", 160, 485, 15, BLACK);
+                DrawRectangleRec(answear4, BLANK);
+                DrawText("Fathometer", 160, 510, 15, BLACK);
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
+                {
+                    IsQuestionAnsweared = 1;
+                    points++;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                break;
+            case 6:
+                DrawText("The instrument _________ is used for detecting electric current is", 150, 350, 16, BLACK);
+                DrawRectangleRec(answear1, BLANK);
+                DrawText("Galvanometer", 160, 425, 15, BLACK);
+                DrawRectangleRec(answear2, BLANK);
+                DrawText("Tube tester", 160, 460, 15, BLACK);
+                DrawRectangleRec(answear3, BLANK);
+                DrawText("Altimeter", 160, 485, 15, BLACK);
+                DrawRectangleRec(answear4, BLANK);
+                DrawText("Fathometer", 160, 510, 15, BLACK);
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
+                {
+                    IsQuestionAnsweared = 1;
+                    points++;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                break;
+            case 7:
+                DrawText("How much work is done in moving a charge of 5 C across two \n points having a potential difference of 16 V?", 150, 350, 16, BLACK);
+                DrawRectangleRec(answear1, BLANK);
+                DrawText("65 J", 160, 425, 15, BLACK);
+                DrawRectangleRec(answear2, BLANK);
+                DrawText("45 J", 160, 460, 15, BLACK);
+                DrawRectangleRec(answear3, BLANK);
+                DrawText("40 J", 160, 485, 15, BLACK);
+                DrawRectangleRec(answear4, BLANK);
+                DrawText("80 J", 160, 510, 15, BLACK);
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                {
+                    IsQuestionAnsweared = 1;
+                    points++;
+                }
+                break;
+            case 8:
+                DrawText("'Decibel' is the unit used for measuring :-", 150, 350, 16, BLACK);
+                DrawRectangleRec(answear1, BLANK);
+                DrawText("Speed of light", 160, 425, 15, BLACK);
+                DrawRectangleRec(answear2, BLANK);
+                DrawText("Itensity of sound", 160, 460, 15, BLACK);
+                DrawRectangleRec(answear3, BLANK);
+                DrawText("Itensity of heat", 160, 485, 15, BLACK);
+                DrawRectangleRec(answear4, BLANK);
+                DrawText("Itensity of earthquake", 160, 510, 15, BLACK);
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
+                {
+                    IsQuestionAnsweared = 1;
+                    points++;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                break;
+            case 9:
+                DrawText("Rod and cone are found in:", 150, 350, 16, BLACK);
+                DrawRectangleRec(answear1, BLANK);
+                DrawText("Heart", 160, 425, 15, BLACK);
+                DrawRectangleRec(answear2, BLANK);
+                DrawText("Lungs", 160, 460, 15, BLACK);
+                DrawRectangleRec(answear3, BLANK);
+                DrawText("Lungs", 160, 485, 15, BLACK);
+                DrawRectangleRec(answear4, BLANK);
+                DrawText("None of the above", 160, 510, 15, BLACK);
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
+                {
+                    IsQuestionAnsweared = 1;
+                    points++;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                break;
+            case 10:
+                DrawText("A passenger in a moving bus is thrown forward when the bus suddenly stops. This is explained", 150, 350, 16, BLACK);
+                DrawRectangleRec(answear1, BLANK);
+                DrawText("by Newton's first law", 160, 425, 15, BLACK);
+                DrawRectangleRec(answear2, BLANK);
+                DrawText("by Newton's second law", 160, 460, 15, BLACK);
+                DrawRectangleRec(answear3, BLANK);
+                DrawText("by Newton's third law", 160, 485, 15, BLACK);
+                DrawRectangleRec(answear4, BLANK);
+                DrawText("by the principle of conservation of momentum", 160, 510, 15, BLACK);
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
+                {
+                    IsQuestionAnsweared = 1;
+                    points++;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                break;
+            case 11:
+                DrawText("At which point of the Earth is there no gravity?", 150, 350, 16, BLACK);
+                DrawRectangleRec(answear1, BLANK);
+                DrawText("At North and South Pole", 160, 425, 15, BLACK);
+                DrawRectangleRec(answear2, BLANK);
+                DrawText("At equator", 160, 460, 15, BLACK);
+                DrawRectangleRec(answear3, BLANK);
+                DrawText("On the ocean surface", 160, 485, 15, BLACK);
+                DrawRectangleRec(answear4, BLANK);
+                DrawText("At centre of the Earth", 160, 510, 15, BLACK);
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                {
+                    IsQuestionAnsweared = 1;
+                    points++;
+                }
+                break;
+            case 12:
+                DrawText("Which of the following space agencies uses a spacecraft named Hayabusa ?", 150, 350, 16, BLACK);
+                DrawRectangleRec(answear1, BLANK);
+                DrawText(" National Aeronautics and Space Administration(NASA)", 160, 425, 15, BLACK);
+                DrawRectangleRec(answear2, BLANK);
+                DrawText("Centre national detudes spatiales (CNES)", 160, 460, 15, BLACK);
+                DrawRectangleRec(answear3, BLANK);
+                DrawText("China National Space Administration (CNSA)", 160, 485, 15, BLACK);
+                DrawRectangleRec(answear4, BLANK);
+                DrawText("Japan Aerospace Exploration Agency (JAXA)", 160, 510, 15, BLACK);
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
+                {
+                    IsQuestionAnsweared = 1;
+                }
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                {
+                    IsQuestionAnsweared = 1;
+                    points++;
+                }
+                break;
             }
+           
             if (IsQuestionAnsweared == 1)
             {
                 asteroid.active = false;
@@ -153,7 +491,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                     particle.active = true;
                     particles.push_back(particle);
                 }
-
+                QuestionNumber = GetRandomValue(1, 12);
                 IsQuestionAnsweared = 0;
                 laserspeed = 7;
                 movementSpeed = 4;
