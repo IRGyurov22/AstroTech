@@ -16,7 +16,7 @@ Welcome to the AstroTech repository, the forefront of cosmic exploration and inn
   </ul> 
 <h4>Presenting</h4>
   <ul>    
-    <li><a href="./Presentation-AstroTech.pptx">Documentation</a></li>
+    <li><a href="./Presentation-AstroTech.pptx">Presentation</a></li>
   </ul> 
 
   ## ⚒️ Used technologies
