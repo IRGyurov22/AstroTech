@@ -6,6 +6,15 @@
 
 <br>
 
+## 👨🏻‍💻 Team Members
+
+| **Name** | **Role** | **Grade** |
+| :---:   | :---: | :---: |
+| Ivaylo Gyurov | *Scrum trainer* | 🟥 9B |
+| Kaloyan Ivanov | *Back-end developer*  | 🟥 9B |
+| Alexander Ivanov | *Front-end developer*  | 🟥 9B |
+| Daniel Hristov |  *Front-end developer*  | 🟥 9B |
+
 ## 📋 Description
 Welcome to the AstroTech repository, the forefront of cosmic exploration and innovation. AstroTech is a group of innovative people who created a game where you navigate a spaceship through the cosmos, tasked with the mission to destroy incoming asteroids.
 
@@ -36,11 +45,3 @@ Welcome to the AstroTech repository, the forefront of cosmic exploration and inn
 <a><img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/Raylib_logo.png" heigh=48px width=48px/></a>
 </p>
 
-## 👨🏻‍💻 Team Members
-
-| **Name** | **Role** | **Grade** |
-| :---:   | :---: | :---: |
-| Ivaylo Gyurov | *Scrum trainer* | 🟥 9B |
-| Kaloyan Ivanov | *Back-end developer*  | 🟥 9B |
-| Alexander Ivanov | *Front-end developer*  | 🟥 9B |
-| Daniel Hristov |  *Front-end developer*  | 🟥 9B |
