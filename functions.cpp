@@ -42,7 +42,7 @@ Vector3 laserColor = { 1.0f, 0.0f, 0.0f };
 
 void initsettings()
 {
-
+         
 }
 
 void movement(int& AstroPosX, int& AstroPosy) {
@@ -130,7 +130,11 @@ void drawLaserParticles(const vector<LaserParticle>& particles) {
     }
 }
 
+
 void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particles, Texture2D TextWindow) {
+    
+    auto font = LoadFont("resources/fonts/Anta-Regular.ttf");
+
     if (asteroid.active) {
         asteroid.y += asteroidspeed;
 
@@ -149,15 +153,15 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
             switch (QuestionNumber)
             {
             case 1:
-                DrawText("A projectile fired with initial velocity u at some angle 0 has a range R.\n If the initial velocity be doubled keeping the angle of projection same,\n then the range will be", 150, 325, 16, BLACK);
+                DrawTextEx(font, "A projectile fired with initial velocity u at some angle 0 has a range R.\n If the initial velocity be doubled keeping the angle of projection same,\n then the range will be", { 110, 325 }, 20, 1, BLACK);
                 DrawRectangleRec(answear1, BLANK);
-                DrawText("R/2", 160, 415, 15, BLACK);
+                DrawTextEx(font, "R/2", { 110, 430 }, 24, 1, BLACK);
                 DrawRectangleRec(answear2, BLANK);
-                DrawText("4R", 160, 440, 15, BLACK);
+                DrawTextEx(font, "4R", { 110, 455 }, 24, 1, BLACK);
                 DrawRectangleRec(answear3, BLANK);
-                DrawText("2R", 160, 465, 15, BLACK);
+                DrawTextEx(font, "2R", { 110, 480 }, 24, 1, BLACK);
                 DrawRectangleRec(answear4, BLANK);
-                DrawText("None of the above", 160, 490, 15, BLACK);
+                DrawTextEx(font, "None of the above", { 110, 505 }, 24, 1, BLACK);
                 
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
                 {
@@ -167,19 +171,20 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear1) || CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear4)))
                 {
                     IsQuestionAnsweared = 1;
+                    points--;
                 }
                 
                 break;
             case 2:
-                DrawText("Choose the incorrect statement from \n the following regarding magnetic lines of field -", 150, 325, 16, BLACK);
+                DrawTextEx(font, "Choose the incorrect statement from \n the following regarding magnetic lines of field -", { 110, 300 }, 25, 1, BLACK);
                 DrawRectangleRec(answear1, BLANK);
-                DrawText("The direction of magnetic field at a point is taken to be the direction in which \n the north Pole of a magnetic compass needle points.", 160, 415, 15, BLACK);
+                DrawTextEx(font, "The direction of magnetic field at a point is taken to be the direction in which \n the north Pole of a magnetic compass needle points.", { 110, 380 }, 18, 1, BLACK);
                 DrawRectangleRec(answear2, BLANK);
-                DrawText("Magnetlc field lines are closed curves.", 160, 450, 15, BLACK);
+                DrawTextEx(font, "Magnetlc field lines are closed curves.", { 110, 450 }, 24, 1, BLACK);
                 DrawRectangleRec(answear3, BLANK);
-                DrawText("If magnetic field lines are parallel and equidistant, they represent \n zero field strength.", 160, 475, 15, BLACK);
+                DrawTextEx(font, "If magnetic field lines are parallel and equidistant, they represent \n zero field strength.", { 110, 490 }, 21, 1, BLACK);
                 DrawRectangleRec(answear4, BLANK);
-                DrawText("None of the above", 160, 520, 15, BLACK);
+                DrawTextEx(font, "None of the above", { 110, 560 }, 24, 1, BLACK);
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
                 {
                     IsQuestionAnsweared = 1;
@@ -188,18 +193,19 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear1) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear4)))
                 {
                     IsQuestionAnsweared = 1;
+                    points--;
                 }
                 break;
             case 3:
-                DrawText("What type of waves are light wave?", 150, 325, 16, BLACK);
+                DrawTextEx(font, "What type of waves are light wave?", { 150, 325 }, 25, 1, BLACK);
                 DrawRectangleRec(answear1, BLANK);
-                DrawText("Transverse wave", 160, 425, 15, BLACK);
+                DrawTextEx(font, "Transverse wave", { 160, 425 }, 24, 1, BLACK);
                 DrawRectangleRec(answear2, BLANK);
-                DrawText("Longitudinal wave", 160, 460, 15, BLACK);
+                DrawTextEx(font, "Longitudinal wave", { 160, 460 }, 24, 1, BLACK);
                 DrawRectangleRec(answear3, BLANK);
-                DrawText("Both A & B", 160, 485, 15, BLACK);
+                DrawTextEx(font, "Both A & B", { 160, 485 }, 24, 1, BLACK);
                 DrawRectangleRec(answear4, BLANK);
-                DrawText("None", 160, 510, 15, BLACK);
+                DrawTextEx(font, "None", { 160, 510 }, 24, 1, BLACK);
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
                 {
                     IsQuestionAnsweared = 1;
@@ -208,18 +214,19 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear4)))
                 {
                     IsQuestionAnsweared = 1;
+                    points--;
                 }
                     break;
             case 4:
-                DrawText("A 220 V, 100 W bulb is connected to a 110 V source. \n Calculate the power consumed by the bulb.", 150, 325, 16, BLACK);
+                DrawTextEx(font, "A 220 V, 100 W bulb is connected to a 110 V source. \n Calculate the power consumed by the bulb.", { 150, 325 }, 25, 1, BLACK);
                 DrawRectangleRec(answear1, BLANK);
-                DrawText("10W", 160, 425, 15, BLACK);
+                DrawTextEx(font, "10W", { 160, 425 }, 24, 1, BLACK);
                 DrawRectangleRec(answear2, BLANK);
-                DrawText("15W", 160, 460, 15, BLACK);
+                DrawTextEx(font, "15W", { 160, 460 }, 24, 1, BLACK);
                 DrawRectangleRec(answear3, BLANK);
-                DrawText("20W", 160, 485, 15, BLACK);
+                DrawTextEx(font, "20W", { 160, 485 }, 24, 1, BLACK);
                 DrawRectangleRec(answear4, BLANK);
-                DrawText("25W", 160, 510, 15, BLACK);
+                DrawTextEx(font, "25W", { 160, 510 }, 24, 1, BLACK);
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
                 {
                     IsQuestionAnsweared = 1;
@@ -228,18 +235,19 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear1)))
                 {
                     IsQuestionAnsweared = 1;
+                    points--;
                 }
                 break;
             case 5:
-                DrawText("The instrument _________ is used for detecting electric current is", 150, 350, 16, BLACK);
+                DrawTextEx(font, "The instrument _________ is used for detecting electric current is", { 150, 350 }, 25, 1, BLACK);
                 DrawRectangleRec(answear1, BLANK);
-                DrawText("Galvanometer", 160, 425, 15, BLACK);
+                DrawTextEx(font, "Galvanometer", { 160, 425 }, 24, 1, BLACK);
                 DrawRectangleRec(answear2, BLANK);
-                DrawText("Tube tester", 160, 460, 15, BLACK);
+                DrawTextEx(font, "Tube tester", { 160, 460 }, 24, 1, BLACK);
                 DrawRectangleRec(answear3, BLANK);
-                DrawText("Altimeter", 160, 485, 15, BLACK);
+                DrawTextEx(font, "Altimeter", { 160, 485 }, 24, 1, BLACK);
                 DrawRectangleRec(answear4, BLANK);
-                DrawText("Fathometer", 160, 510, 15, BLACK);
+                DrawTextEx(font, "Fathometer", { 160, 510 }, 24, 1, BLACK);
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
                 {
                     IsQuestionAnsweared = 1;
@@ -248,18 +256,19 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear4)))
                 {
                     IsQuestionAnsweared = 1;
+                    points--;
                 }
                 break;
             case 6:
-                DrawText("The instrument _________ is used for detecting electric current is", 150, 350, 16, BLACK);
+                DrawTextEx(font, "The instrument _________ is used for detecting electric current is", { 150, 350 }, 25, 1, BLACK);
                 DrawRectangleRec(answear1, BLANK);
-                DrawText("Galvanometer", 160, 425, 15, BLACK);
+                DrawTextEx(font, "Galvanometer", { 160, 425 }, 24, 1, BLACK);
                 DrawRectangleRec(answear2, BLANK);
-                DrawText("Tube tester", 160, 460, 15, BLACK);
+                DrawTextEx(font, "Tube tester", { 160, 460 }, 24, 1, BLACK);
                 DrawRectangleRec(answear3, BLANK);
-                DrawText("Altimeter", 160, 485, 15, BLACK);
+                DrawTextEx(font, "Altimeter", { 160, 485 }, 24, 1, BLACK);
                 DrawRectangleRec(answear4, BLANK);
-                DrawText("Fathometer", 160, 510, 15, BLACK);
+                DrawTextEx(font, "Fathometer", { 160, 510 }, 24, 1, BLACK);
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
                 {
                     IsQuestionAnsweared = 1;
@@ -268,18 +277,19 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear4)))
                 {
                     IsQuestionAnsweared = 1;
+                    points--;
                 }
                 break;
             case 7:
-                DrawText("How much work is done in moving a charge of 5 C across two \n points having a potential difference of 16 V?", 150, 350, 16, BLACK);
+                DrawTextEx(font, "How much work is done in moving a charge of 5 C across two \n points having a potential difference of 16 V?", { 150, 350 }, 25, 1, BLACK);
                 DrawRectangleRec(answear1, BLANK);
-                DrawText("65 J", 160, 425, 15, BLACK);
+                DrawTextEx(font, "65 J", { 160, 425 }, 24, 1, BLACK);
                 DrawRectangleRec(answear2, BLANK);
-                DrawText("45 J", 160, 460, 15, BLACK);
+                DrawTextEx(font, "45 J", { 160, 460 }, 24, 1, BLACK);
                 DrawRectangleRec(answear3, BLANK);
-                DrawText("40 J", 160, 485, 15, BLACK);
+                DrawTextEx(font, "40 J", { 160, 485 }, 24, 1, BLACK);
                 DrawRectangleRec(answear4, BLANK);
-                DrawText("80 J", 160, 510, 15, BLACK);
+                DrawTextEx(font, "80 J", { 160, 510 }, 24, 1, BLACK);
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
                 {
                     IsQuestionAnsweared = 1;
@@ -288,18 +298,19 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear1)))
                 {
                     IsQuestionAnsweared = 1;
+                    points--;
                 }
                 break;
             case 8:
-                DrawText("'Decibel' is the unit used for measuring :-", 150, 350, 16, BLACK);
+                DrawTextEx(font, "'Decibel' is the unit used for measuring :-", { 150, 350 }, 25, 1, BLACK);
                 DrawRectangleRec(answear1, BLANK);
-                DrawText("Speed of light", 160, 425, 15, BLACK);
+                DrawTextEx(font, "Speed of light", { 160, 425 }, 24, 1, BLACK);
                 DrawRectangleRec(answear2, BLANK);
-                DrawText("Itensity of sound", 160, 460, 15, BLACK);
+                DrawTextEx(font, "Itensity of sound", { 160, 460 }, 24, 1, BLACK);
                 DrawRectangleRec(answear3, BLANK);
-                DrawText("Itensity of heat", 160, 485, 15, BLACK);
+                DrawTextEx(font, "Itensity of heat", { 160, 485 }, 24, 1, BLACK);
                 DrawRectangleRec(answear4, BLANK);
-                DrawText("Itensity of earthquake", 160, 510, 15, BLACK);
+                DrawTextEx(font, "Itensity of earthquake", { 160, 510 }, 24, 1, BLACK);
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
                 {
                     IsQuestionAnsweared = 1;
@@ -308,18 +319,19 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear1) || CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear4)))
                 {
                     IsQuestionAnsweared = 1;
+                    points--;
                 }
                 break;
             case 9:
-                DrawText("Rod and cone are found in:", 150, 350, 16, BLACK);
+                DrawTextEx(font, "Rod and cone are found in:", { 150, 350 }, 25, 1, BLACK);
                 DrawRectangleRec(answear1, BLANK);
-                DrawText("Heart", 160, 425, 15, BLACK);
+                DrawTextEx(font, "Heart", { 160, 425 }, 24, 1, BLACK);
                 DrawRectangleRec(answear2, BLANK);
-                DrawText("Eyes", 160, 460, 15, BLACK);
+                DrawTextEx(font, "Eyes", { 160, 460 }, 24, 1, BLACK);
                 DrawRectangleRec(answear3, BLANK);
-                DrawText("Lungs", 160, 485, 15, BLACK);
+                DrawTextEx(font, "Lungs", { 160, 485 }, 24, 1, BLACK);
                 DrawRectangleRec(answear4, BLANK);
-                DrawText("None of the above", 160, 510, 15, BLACK);
+                DrawTextEx(font, "None of the above", { 160, 510 }, 24, 1, BLACK);
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
                 {
                     IsQuestionAnsweared = 1;
@@ -328,18 +340,19 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear1) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear4)))
                 {
                     IsQuestionAnsweared = 1;
+                    points--;
                 }
                 break;
             case 10:
-                DrawText("A passenger in a moving bus is thrown forward when the bus suddenly stops. This is explained", 150, 350, 16, BLACK);
+                DrawTextEx(font, "A passenger in a moving bus is thrown forward when the bus suddenly stops. This is explained", { 150, 350 } , 25, 1, BLACK);
                 DrawRectangleRec(answear1, BLANK);
-                DrawText("by Newton's first law", 160, 425, 15, BLACK);
+                DrawTextEx(font, "by Newton's first law", { 160, 425 }, 15, 1, BLACK);
                 DrawRectangleRec(answear2, BLANK);
-                DrawText("by Newton's second law", 160, 460, 15, BLACK);
+                DrawTextEx(font, "by Newton's second law", { 160, 460 }, 15, 1, BLACK);
                 DrawRectangleRec(answear3, BLANK);
-                DrawText("by Newton's third law", 160, 485, 15, BLACK);
+                DrawTextEx(font, "by Newton's third law", { 160, 485 }, 15, 1, BLACK);
                 DrawRectangleRec(answear4, BLANK);
-                DrawText("by the principle of conservation of momentum", 160, 510, 15, BLACK);
+                DrawTextEx(font, "by the principle of conservation of momentum", { 160, 510 }, 15, 1, BLACK);
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
                 {
                     IsQuestionAnsweared = 1;
@@ -348,18 +361,19 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear4)))
                 {
                     IsQuestionAnsweared = 1;
+                    points--;
                 }
                 break;
             case 11:
-                DrawText("At which point of the Earth is there no gravity?", 150, 350, 16, BLACK);
+                DrawTextEx(font, "At which point of the Earth is there no gravity?", { 150, 350 }, 25, 1, BLACK);
                 DrawRectangleRec(answear1, BLANK);
-                DrawText("At North and South Pole", 160, 425, 15, BLACK);
+                DrawTextEx(font, "At North and South Pole", { 160, 425 }, 24, 1, BLACK);
                 DrawRectangleRec(answear2, BLANK);
-                DrawText("At equator", 160, 460, 15, BLACK);
+                DrawTextEx(font, "At equator", { 160, 460 }, 24, 1, BLACK);
                 DrawRectangleRec(answear3, BLANK);
-                DrawText("On the ocean surface", 160, 485, 15, BLACK);
+                DrawTextEx(font, "On the ocean surface", { 160, 485 }, 24, 1, BLACK);
                 DrawRectangleRec(answear4, BLANK);
-                DrawText("At centre of the Earth", 160, 510, 15, BLACK);
+                DrawTextEx(font, "At centre of the Earth", { 160, 510 }, 24, 1, BLACK);
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
                 {
                     IsQuestionAnsweared = 1;
@@ -368,18 +382,19 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear1)))
                 {
                     IsQuestionAnsweared = 1;
+                    points--;
                 }
                 break;
             case 12:
-                DrawText("Which of the following space agencies uses a spacecraft named Hayabusa ?", 150, 350, 16, BLACK);
+                DrawTextEx(font, "Which of the following space agencies uses a spacecraft named Hayabusa ?", { 150, 350 }, 25, 1, BLACK);
                 DrawRectangleRec(answear1, BLANK);
-                DrawText(" National Aeronautics and Space Administration(NASA)", 160, 425, 15, BLACK);
+                DrawTextEx(font, "National Aeronautics and Space Administration(NASA)", { 160, 425 }, 24, 1, BLACK);
                 DrawRectangleRec(answear2, BLANK);
-                DrawText("Centre national detudes spatiales (CNES)", 160, 460, 15, BLACK);
+                DrawTextEx(font, "Centre national detudes spatiales (CNES)", { 160, 460 }, 24, 1, BLACK);
                 DrawRectangleRec(answear3, BLANK);
-                DrawText("China National Space Administration (CNSA)", 160, 485, 15, BLACK);
+                DrawTextEx(font, "China National Space Administration (CNSA)", { 160, 485 }, 24, 1, BLACK);
                 DrawRectangleRec(answear4, BLANK);
-                DrawText("Japan Aerospace Exploration Agency (JAXA)", 160, 510, 15, BLACK);
+                DrawTextEx(font, "Japan Aerospace Exploration Agency (JAXA)", { 160, 510 }, 24, 1, BLACK);
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
                 {
                     IsQuestionAnsweared = 1;
@@ -406,7 +421,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                     particle.active = true;
                     particles.push_back(particle);
                 }
-                QuestionNumber = GetRandomValue(1, 12);
+                QuestionNumber = GetRandomValue(1, 2);
                 IsQuestionAnsweared = 0;
                 laserspeed = 7;
                 movementSpeed = 4;
@@ -427,7 +442,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 particle.position = { static_cast<float>(asteroid.x), static_cast<float>(asteroid.y) };
                 particle.velocity = { static_cast<float>(GetRandomValue(-5, 5)), static_cast<float>(GetRandomValue(-5, 5)) };
                 particle.color = GRAY;
-                particle.radius = GetRandomValue(1, 3);
+                particle.radius = GetRandomValue(1, 12);
                 particle.active = true;
                 particles.push_back(particle);
             }
@@ -561,7 +576,6 @@ void initgame()
     int AstroPosX = 375;
     int AstroPosy = 700;
 
-    SetTargetFPS(60);
     BossLaser bossLaser = { 0, 0, false };
     Laser laser = { 0, 0, false };
     int bossx = 200;
