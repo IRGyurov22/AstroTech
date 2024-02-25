@@ -14,7 +14,7 @@ int windowsHeight = 850;
 int windowsWidth = 800;
 
 bool IsGameStarted = 0;
-bool ShouldFightBoss = 1;
+bool ShouldFightBoss = 0;
 
 Rectangle answear1 = { 150, 400, 200, 50 };
 Rectangle answear2 = { 150, 440, 200, 50 };
@@ -34,7 +34,7 @@ bool IsSound = 0;
 bool IsShootingAllowed = 1;
 bool useShader = 1;
 
-int QuestionNumber = GetRandomValue(1, 12);
+int QuestionNumber = GetRandomValue(1, 1);
 
 Vector2 laserPosition = { 0, 0 };
 float laserIntensity = 0.0f;
@@ -158,23 +158,17 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 DrawText("2R", 160, 465, 15, BLACK);
                 DrawRectangleRec(answear4, BLANK);
                 DrawText("None of the above", 160, 490, 15, BLACK);
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
-                {
-                    IsQuestionAnsweared = 1;
-                }
+                
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
                 {
                     IsQuestionAnsweared = 1;
-                    points++;
+                    points++; 
                 }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
+                else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear1) || CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear4)))
                 {
                     IsQuestionAnsweared = 1;
                 }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
-                {
-                    IsQuestionAnsweared = 1;
-                }
+                
                 break;
             case 2:
                 DrawText("Choose the incorrect statement from \n the following regarding magnetic lines of field -", 150, 325, 16, BLACK);
@@ -186,20 +180,12 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 DrawText("If magnetic field lines are parallel and equidistant, they represent \n zero field strength.", 160, 475, 15, BLACK);
                 DrawRectangleRec(answear4, BLANK);
                 DrawText("None of the above", 160, 520, 15, BLACK);
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
-                {
-                    IsQuestionAnsweared = 1;
-                }
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
                 {
                     IsQuestionAnsweared = 1;
                     points++;
                 }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear1) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear4)))
                 {
                     IsQuestionAnsweared = 1;
                 }
@@ -219,15 +205,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                     IsQuestionAnsweared = 1;
                     points++;
                 }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear4)))
                 {
                     IsQuestionAnsweared = 1;
                 }
@@ -242,22 +220,14 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 DrawText("20W", 160, 485, 15, BLACK);
                 DrawRectangleRec(answear4, BLANK);
                 DrawText("25W", 160, 510, 15, BLACK);
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
-                {
-                    IsQuestionAnsweared = 1;
-                }
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
                 {
                     IsQuestionAnsweared = 1;
                     points++;
+                }
+                else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear1)))
+                {
+                    IsQuestionAnsweared = 1;
                 }
                 break;
             case 5:
@@ -275,15 +245,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                     IsQuestionAnsweared = 1;
                     points++;
                 }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear4)))
                 {
                     IsQuestionAnsweared = 1;
                 }
@@ -303,15 +265,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                     IsQuestionAnsweared = 1;
                     points++;
                 }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear4)))
                 {
                     IsQuestionAnsweared = 1;
                 }
@@ -326,22 +280,14 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 DrawText("40 J", 160, 485, 15, BLACK);
                 DrawRectangleRec(answear4, BLANK);
                 DrawText("80 J", 160, 510, 15, BLACK);
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
-                {
-                    IsQuestionAnsweared = 1;
-                }
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
                 {
                     IsQuestionAnsweared = 1;
                     points++;
+                }
+                else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear1)))
+                {
+                    IsQuestionAnsweared = 1;
                 }
                 break;
             case 8:
@@ -354,20 +300,12 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 DrawText("Itensity of heat", 160, 485, 15, BLACK);
                 DrawRectangleRec(answear4, BLANK);
                 DrawText("Itensity of earthquake", 160, 510, 15, BLACK);
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
-                {
-                    IsQuestionAnsweared = 1;
-                }
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
                 {
                     IsQuestionAnsweared = 1;
                     points++;
                 }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear1) || CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear4)))
                 {
                     IsQuestionAnsweared = 1;
                 }
@@ -382,20 +320,12 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 DrawText("Lungs", 160, 485, 15, BLACK);
                 DrawRectangleRec(answear4, BLANK);
                 DrawText("None of the above", 160, 510, 15, BLACK);
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
-                {
-                    IsQuestionAnsweared = 1;
-                }
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
                 {
                     IsQuestionAnsweared = 1;
                     points++;
                 }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear1) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear4)))
                 {
                     IsQuestionAnsweared = 1;
                 }
@@ -415,15 +345,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                     IsQuestionAnsweared = 1;
                     points++;
                 }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear4)))
                 {
                     IsQuestionAnsweared = 1;
                 }
@@ -438,22 +360,14 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 DrawText("On the ocean surface", 160, 485, 15, BLACK);
                 DrawRectangleRec(answear4, BLANK);
                 DrawText("At centre of the Earth", 160, 510, 15, BLACK);
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
-                {
-                    IsQuestionAnsweared = 1;
-                }
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
                 {
                     IsQuestionAnsweared = 1;
                     points++;
+                }
+                else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear1)))
+                {
+                    IsQuestionAnsweared = 1;
                 }
                 break;
             case 12:
@@ -466,19 +380,12 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 DrawText("China National Space Administration (CNSA)", 160, 485, 15, BLACK);
                 DrawRectangleRec(answear4, BLANK);
                 DrawText("Japan Aerospace Exploration Agency (JAXA)", 160, 510, 15, BLACK);
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear1))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
-                {
-                    IsQuestionAnsweared = 1;
-                }
-                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear3))
-                {
-                    IsQuestionAnsweared = 1;
-                }
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear4))
+                {
+                    IsQuestionAnsweared = 1;
+                    points++;
+                }
+                else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear2) || CheckCollisionPointRec(GetMousePosition(), answear1)))
                 {
                     IsQuestionAnsweared = 1;
                     points++;
