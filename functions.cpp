@@ -40,6 +40,11 @@ Vector2 laserPosition = { 0, 0 };
 float laserIntensity = 0.0f;
 Vector3 laserColor = { 1.0f, 0.0f, 0.0f };
 
+void initsettings()
+{
+
+}
+
 void movement(int& AstroPosX, int& AstroPosy) {
     if (IsKeyDown(KEY_RIGHT)) {
         if (AstroPosX + movementSpeed > 800)

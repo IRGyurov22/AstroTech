@@ -76,4 +76,6 @@ void drawPoints(int points);
 
 void initgame();
 
+void initsettings();
+
 #endif 

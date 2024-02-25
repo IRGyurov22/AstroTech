@@ -11,6 +11,7 @@ int main()
     int menuHeight = 800;
 
     InitWindow(menuWidth, menuHeight, "Menu");
+    Texture2D background = LoadTexture("resources/photos/background.png");
 
     Rectangle start = { 300, 300, 200, 100 };
     Rectangle settings = { 300, 400, 200, 100 };
@@ -20,6 +21,7 @@ int main()
     while (!WindowShouldClose())
     {
         BeginDrawing();
+        DrawTexture(background, 0, 0, WHITE);
         DrawRectangleRec(start, WHITE);
         DrawRectangleRec(settings, WHITE);
         DrawRectangleRec(exit, WHITE);
@@ -31,6 +33,12 @@ int main()
         {
             CloseWindow();
             initgame();
+        }
+
+        if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), settings))
+        {
+            CloseWindow();
+            initsettings();
         }
 
         if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), exit))
