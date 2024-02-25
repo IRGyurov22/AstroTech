@@ -12,11 +12,11 @@ Welcome to the AstroTech repository, the forefront of cosmic exploration and inn
 ## 📝 Documents
 <h4>Documents</h4>
   <ul>
-    <li><a href="./Documentation-AstroTech.docx">Documentation</a></li>
+    <li><a href="./Documentation/ Documentation-AstroTech.docx">Documentation</a></li>
   </ul> 
 <h4>Presenting</h4>
   <ul>    
-    <li><a href="./Presentation-AstroTech.pptx">Presentation</a></li>
+    <li><a href="./Documentation/ Presentation-AstroTech.pptx">Presentation</a></li>
   </ul> 
 
   ## ⚒️ Used technologies
