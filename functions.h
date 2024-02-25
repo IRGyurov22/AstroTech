@@ -37,6 +37,21 @@ struct LaserParticle {
     bool active;
 };
 
+struct BossLaser {
+    float x;
+    float y;
+    bool active; 
+};
+
+struct BossLaserParticle {
+    Vector2 position;
+    Vector2 velocity;
+    Color color;
+    float radius;
+    int lifeSpan;
+    bool active;
+};
+
 void movement(int& sposx, int& sposy);
 
 void updateLaser(Laser& laser);
@@ -54,6 +69,10 @@ void drawAsteroid(const Asteroid& asteroid);
 void updateParticles(vector<Particle>& particles);
 
 void drawParticles(const vector<Particle>& particles);
+
+void updateLaserPositionAndIntensity(const Laser& laser);
+
+void drawPoints(int points);
 
 void initgame();
 
