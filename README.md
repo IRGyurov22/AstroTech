@@ -1,7 +1,7 @@
 <h1 align="center">AstroTech</h1>
 
 <p align = "center">
-  <img src="Logo.png"/>
+  <img src="./Documentation/Logo.png"/>
 </p>
 
 <br>
