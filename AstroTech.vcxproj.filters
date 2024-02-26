@@ -15,9 +15,15 @@
     <ClCompile Include="functions.cpp">
       <Filter>source file</Filter>
     </ClCompile>
+    <ClCompile Include="Draws.cpp">
+      <Filter>source file</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="functions.h">
+      <Filter>header file</Filter>
+    </ClInclude>
+    <ClInclude Include="Draws.h">
       <Filter>header file</Filter>
     </ClInclude>
   </ItemGroup>

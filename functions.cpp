@@ -1,5 +1,7 @@
 #include "functions.h"
 #include "raylib.h"
+#include "Draws.h"
+
 #include <chrono>
 #include <thread>
 #include <string>
@@ -9,6 +11,7 @@
 #else   
 #define GLSL_VERSION            100
 #endif
+
 
 Font font;
 
@@ -25,7 +28,7 @@ Rectangle answear2 = { 150, 440, 200, 50 };
 Rectangle answear3 = { 150, 465, 200, 50 };
 Rectangle answear4 = { 150, 490, 200, 50 };
 
-int laserspeed = 7;
+
 int movementSpeed = 4;
 int asteroidspeed = 2;
 
@@ -39,12 +42,13 @@ bool IsShootingAllowed = 1;
 bool useShader = 1;
 bool IsGameStarted = 0;
 
-int QuestionNumber = GetRandomValue(1, 12);
+int QuestionNumber = GetRandomValue(1, 10);
 
+
+int laserspeed = 7;
 Vector2 laserPosition = { 0, 0 };
 float laserIntensity = 0.0f;
 Vector3 laserColor = { 1.0f, 0.0f, 0.0f };
-
 
 void movement(int& AstroPosX, int& AstroPosy) {
     if (IsKeyDown(KEY_RIGHT)) {
@@ -92,48 +96,8 @@ void movement(int& AstroPosX, int& AstroPosy) {
     }
 
 }
-
-void updateLaser(Laser& laser) {
-    if (laser.active) {
-        laser.y -= laserspeed;
-        if (laser.y <= 0) {
-            laser.active = false;
-        }
-    }
-}
-
-
-void drawLaser(Laser& laser) {
-    if (laser.active) {
-        DrawRectangle(laser.x + 21, laser.y, 5, 20, BLANK);
-    }
-}
-
-void updateLaserParticles(vector<LaserParticle>& particles) {
-    for (auto& particle : particles) {
-        if (particle.active) {
-            particle.position.x += particle.velocity.x;
-            particle.position.y += particle.velocity.y;
-            particle.lifeSpan--;
-            if (particle.lifeSpan <= 0 || particle.position.y <= 0) {
-                particle.active = false;
-            }
-        }
-    }
-}
-
-
-void drawLaserParticles(const vector<LaserParticle>& particles) {
-    for (const auto& particle : particles) {
-        if (particle.active) {
-            DrawCircle(particle.position.x, particle.position.y, particle.radius, particle.color);
-        }
-    }
-}
-
-
 void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particles, Texture2D TextWindow) {
-    
+
 
     if (asteroid.active) {
         asteroid.y += asteroidspeed;
@@ -151,8 +115,6 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
             asteroidspeed = 0;
             AsteroidSpawnTime = 999999;
             IsShootingAllowed = 0;
-            
-            
             switch (QuestionNumber)
             {
             case 1:
@@ -165,18 +127,18 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 DrawTextEx(font, "2R", { 110, 480 }, 24, 1, BLACK);
                 DrawRectangleRec(answear4, BLANK);
                 DrawTextEx(font, "None of the above", { 110, 505 }, 24, 1, BLACK);
-                
+
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), answear2))
                 {
                     IsQuestionAnsweared = 1;
-                    points++; 
+                    points++;
                 }
                 else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answear1) || CheckCollisionPointRec(GetMousePosition(), answear3) || CheckCollisionPointRec(GetMousePosition(), answear4)))
                 {
                     IsQuestionAnsweared = 1;
                     points--;
                 }
-                
+
                 break;
             case 2:
                 DrawTextEx(font, "What type of waves are light wave?", { 150, 325 }, 25, 1, BLACK);
@@ -198,7 +160,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                     IsQuestionAnsweared = 1;
                     points--;
                 }
-                    break;
+                break;
             case 3:
                 DrawTextEx(font, "A 220 V, 100 W bulb is connected to a 110 V source. \n Calculate the power consumed by the bulb.", { 150, 325 }, 25, 1, BLACK);
                 DrawRectangleRec(answear1, BLANK);
@@ -241,7 +203,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                     points--;
                 }
                 break;
-            
+
             case 5:
                 DrawTextEx(font, "How much work is done in moving a charge of 5 C across two \n points having a potential difference of 16 V?", { 150, 350 }, 25, 1, BLACK);
                 DrawRectangleRec(answear1, BLANK);
@@ -306,7 +268,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 }
                 break;
             case 8:
-                DrawTextEx(font, "A passenger in a moving bus is thrown forward when the bus suddenly stops. This is explained", { 150, 350 } , 25, 1, BLACK);
+                DrawTextEx(font, "A passenger in a moving bus is thrown forward when the bus suddenly stops. This is explained", { 150, 350 }, 25, 1, BLACK);
                 DrawRectangleRec(answear1, BLANK);
                 DrawTextEx(font, "by Newton's first law", { 160, 425 }, 15, 1, BLACK);
                 DrawRectangleRec(answear2, BLANK);
@@ -369,7 +331,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 }
                 break;
             }
-           
+
             if (IsQuestionAnsweared == 1)
             {
                 asteroid.active = false;
@@ -383,7 +345,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                     particle.active = true;
                     particles.push_back(particle);
                 }
-                QuestionNumber = GetRandomValue(1, 2);
+                QuestionNumber = GetRandomValue(1, 10);
                 IsQuestionAnsweared = 0;
                 laserspeed = 7;
                 movementSpeed = 4;
@@ -411,14 +373,29 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
         }
     }
 }
-
-void drawAsteroid(const Asteroid& asteroid, Texture2D texture) {
-    if (asteroid.active) {
-        DrawTexture(texture, asteroid.x, asteroid.y, WHITE);
+void updateLaser(Laser& laser) {
+    if (laser.active) {
+        laser.y -= laserspeed;
+        if (laser.y <= 0) {
+            laser.active = false;
+        }
     }
 }
 
-void updateParticles(vector<Particle>& particles) {
+void updateLaserParticles(std::vector<LaserParticle>& particles) {
+    for (auto& particle : particles) {
+        if (particle.active) {
+            particle.position.x += particle.velocity.x;
+            particle.position.y += particle.velocity.y;
+            particle.lifeSpan--;
+            if (particle.lifeSpan <= 0 || particle.position.y <= 0) {
+                particle.active = false;
+            }
+        }
+    }
+}
+
+void updateParticles(std::vector<Particle>& particles) {
     for (auto& particle : particles) {
         if (particle.active) {
             particle.position.x += particle.velocity.x;
@@ -427,46 +404,22 @@ void updateParticles(vector<Particle>& particles) {
     }
 }
 
-void drawParticles(const vector<Particle>& particles) {
-    for (const auto& particle : particles) {
-        if (particle.active) {
-            DrawCircle(static_cast<int>(particle.position.x), static_cast<int>(particle.position.y), particle.radius, particle.color);
-        }
-    }
-}
-
 void updateLaserPositionAndIntensity(const Laser& laser) {
     laserPosition.x = laser.x - 25;
     laserPosition.y = laser.y;
     laserIntensity = 5.0;
-    if (laserPosition.y <= 0)
-    {
+    if (laserPosition.y <= 0) {
         laserPosition.y = 1000;
         laserPosition.x = 1000;
-    }
-}
-void updateBossLaserPositionAndIntensity(const BossLaser& bossLaser) {
-    laserPosition.x = bossLaser.x - 25;
-    laserPosition.y = bossLaser.y;
-    laserIntensity = 25.0;
-    if (laserPosition.y >= 800) {
-        laserPosition.y = 5000;
-        laserPosition.x = 5000;
     }
 }
 
 void updateBossLaser(BossLaser& bossLaser) {
     if (bossLaser.active) {
-        bossLaser.y += laserspeed; 
-        if (bossLaser.y >= 800) { 
+        bossLaser.y += laserspeed;
+        if (bossLaser.y >= 800) {
             bossLaser.active = false;
         }
-    }
-}
-
-void drawBossLaser(const BossLaser& bossLaser) {
-    if (bossLaser.active) {
-        DrawRectangle(bossLaser.x + 21, bossLaser.y, 5, 20, BLANK);
     }
 }
 
@@ -476,25 +429,13 @@ void updateBossLaserParticles(std::vector<BossLaserParticle>& particles) {
             particle.position.x += particle.velocity.x;
             particle.position.y += particle.velocity.y;
             particle.lifeSpan--;
-            if (particle.lifeSpan <= 0 || particle.position.y >= 800) { 
+            if (particle.lifeSpan <= 0 || particle.position.y >= 800) {
                 particle.active = false;
             }
         }
     }
 }
 
-void drawBossLaserParticles(const std::vector<BossLaserParticle>& particles) {
-    for (const auto& particle : particles) {
-        if (particle.active) {
-            DrawCircle(particle.position.x, particle.position.y, particle.radius, particle.color);
-        }
-    }
-}
-
-void drawPoints(int points) {
-    std::string pointsStr = std::to_string(points);
-    DrawText(("Score: " + pointsStr).c_str(), 0, 0, 20, WHITE);
-}
 
 float smooth(float a, float b, float t) {
     return a + t * (b - a);
@@ -603,6 +544,7 @@ void initgame()
 
         if (ShouldFightBoss == 1)
         {
+
                 DrawTexture(boss, bossx, 50, BLUE);
                 ambientStrength = 0.1;
                 SetShaderValue(lighting, ambientStrengthLocation, &ambientStrength, SHADER_UNIFORM_FLOAT);
@@ -627,13 +569,7 @@ void initgame()
             if (IsShootingAllowed == 1) {
                 bossShootTimer += GetFrameTime();
                 if (bossShootTimer >= BossShootCooldown) {
-                    BeginShaderMode(lighting);
-                    updateLaserPositionAndIntensity(laser);
                     
-                    SetShaderValue(lighting, GetShaderLocation(lighting, "lightPos"), &laserPosition, SHADER_UNIFORM_VEC2);
-                    SetShaderValue(lighting, GetShaderLocation(lighting, "lightIntensity"), &laserIntensity, SHADER_UNIFORM_FLOAT);
-                    SetShaderValue(lighting, GetShaderLocation(lighting, "lightColor"), &laserColor, SHADER_UNIFORM_VEC3);
-                    EndShaderMode();
                     bossLaser.active = true;
                     bossLaser.x = bossx + 25;
                     bossLaser.y = 50;

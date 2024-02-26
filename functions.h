@@ -54,29 +54,15 @@ struct BossLaserParticle {
 };
 
 void movement(int& sposx, int& sposy);
-
 void updateLaser(Laser& laser);
-
-void drawLaser(Laser& laser);
-
-void updateLaserParticles(vector<LaserParticle>& particles);
-
-void drawLaserParticles(const vector<LaserParticle>& particles);
-
-void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particles);
-
-void drawAsteroid(const Asteroid& asteroid);
-
-void updateParticles(vector<Particle>& particles);
-
-void drawParticles(const vector<Particle>& particles);
-
+void updateLaserParticles(std::vector<LaserParticle>& particles);
+void updateAsteroid(Asteroid& asteroid, Laser& laser, std::vector<Particle>& particles, Texture2D TextWindow);
+void updateParticles(std::vector<Particle>& particles);
 void updateLaserPositionAndIntensity(const Laser& laser);
-
-void drawPoints(int points);
-
+void updateBossLaser(BossLaser& bossLaser);
+void updateBossLaserParticles(std::vector<BossLaserParticle>& particles);
+void bossmovement(int& bossx);
 void initgame();
 
-void initsettings();
 
 #endif 
