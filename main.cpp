@@ -9,7 +9,6 @@ int main()
 {
     int menuWidth = 800;
     int menuHeight = 800;
-
     InitWindow(menuWidth, menuHeight, "Menu");
 
     Rectangle start = { 300, 300, 200, 100 };
@@ -39,7 +38,7 @@ int main()
         if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), settings))
         {
             CloseWindow();
-            initsettings();
+            
         }
 
         if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), exit))

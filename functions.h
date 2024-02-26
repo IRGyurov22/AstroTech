@@ -6,6 +6,7 @@
 
 using namespace std;
 
+
 struct Laser {
     int x;
     int y;

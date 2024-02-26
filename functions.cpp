@@ -3,17 +3,21 @@
 #include <chrono>
 #include <thread>
 #include <string>
+
 #if defined(PLATFORM_DESKTOP)
 #define GLSL_VERSION            330
 #else   
 #define GLSL_VERSION            100
 #endif
 
+Font font;
 
 int windowsHeight = 850;
 int windowsWidth = 800;
 
-bool IsGameStarted = 0;
+bool IsFontLoaded = 0;
+bool IsFontLoadedQuestion = 0;
+bool IsShaderLoaded = 0;
 bool ShouldFightBoss = 0;
 
 Rectangle answear1 = { 150, 400, 200, 50 };
@@ -33,17 +37,14 @@ int points = 0;
 bool IsSound = 0;
 bool IsShootingAllowed = 1;
 bool useShader = 1;
+bool IsGameStarted = 0;
 
-int QuestionNumber = GetRandomValue(1, 1);
+int QuestionNumber = GetRandomValue(1, 12);
 
 Vector2 laserPosition = { 0, 0 };
 float laserIntensity = 0.0f;
 Vector3 laserColor = { 1.0f, 0.0f, 0.0f };
 
-void initsettings()
-{
-         
-}
 
 void movement(int& AstroPosX, int& AstroPosy) {
     if (IsKeyDown(KEY_RIGHT)) {
@@ -133,14 +134,16 @@ void drawLaserParticles(const vector<LaserParticle>& particles) {
 
 void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particles, Texture2D TextWindow) {
     
-    auto font = LoadFont("resources/fonts/Anta-Regular.ttf");
 
     if (asteroid.active) {
         asteroid.y += asteroidspeed;
 
         if (CheckCollisionRecs({ (float)laser.x, (float)laser.y, 5, 20 }, { (float)asteroid.x - asteroid.size / 2, (float)asteroid.y - asteroid.size / 2, (float)asteroid.size, (float)asteroid.size })) {
-
-
+            if (IsFontLoadedQuestion == 0)
+            {
+                font = LoadFont("resources/fonts/Anta-Regular.ttf");
+                IsFontLoadedQuestion = 1;
+            }
             DrawTexture(TextWindow, 0, 75, GRAY);
             useShader = 0;
             laserspeed = 0;
@@ -430,7 +433,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 IsShootingAllowed = 1;
                 useShader = 1;
                 laser.y = 1000;
-                
+                IsFontLoadedQuestion = 0;
             }
 
         }
@@ -616,10 +619,16 @@ void initgame()
     float bossShootTimer = 0.0;
     constexpr float BossShootCooldown = 5.0;
 
+
     while (!WindowShouldClose()) {
         auto start = chrono::steady_clock::now();
         BeginDrawing();
-        if (useShader == 1)
+        if (IsFontLoaded == 0)
+        {
+            font = LoadFont("resources/fonts/Anta-Regular.ttf");
+            IsFontLoaded = 1;
+        }
+        if (useShader == 1 || IsShaderLoaded == 0)
         {
             BeginShaderMode(lighting);
 
@@ -628,7 +637,7 @@ void initgame()
             SetShaderValue(lighting, GetShaderLocation(lighting, "lightPos"), &laserPosition, SHADER_UNIFORM_VEC2);
             SetShaderValue(lighting, GetShaderLocation(lighting, "lightIntensity"), &laserIntensity, SHADER_UNIFORM_FLOAT);
             SetShaderValue(lighting, GetShaderLocation(lighting, "lightColor"), &laserColor, SHADER_UNIFORM_VEC3);
-
+            IsShaderLoaded = 1;
         }
         DrawTexture(background, 0, 0, WHITE);
         DrawTexture(ship, AstroPosX, AstroPosy, WHITE);
@@ -691,56 +700,71 @@ void initgame()
             updateLaser(laser);
         }
         else {
-            movement(AstroPosX, AstroPosy);
-            if (IsSound == 0)
+            if (IsGameStarted == 0)
             {
-                PlaySound(bgm);
-                IsSound = 1;
-            }
-            if (IsKeyPressed(KEY_SPACE) && IsShootingAllowed == 1) {
-                laser.active = true;
-                laser.x = AstroPosX + 25;
-                laser.y = AstroPosy;
-
-                for (int i = 0; i < 10; i++) {
-                    LaserParticle particle;
-                    particle.position = { static_cast<float>(laser.x), static_cast<float>(laser.y) };
-                    particle.velocity = { static_cast<float>(GetRandomValue(-2, 2)), static_cast<float>(GetRandomValue(-2, 2)) };
-                    particle.color = RED;
-                    particle.radius = GetRandomValue(1, 3);
-                    particle.lifeSpan = GetRandomValue(10, 30);
-                    particle.active = true;
-                    laserParticles.push_back(particle);
+                useShader = 0;
+                DrawRectangle(100, 400, 600, 200, BLANK);
+                DrawTextEx(font, " Hello Astro,\n Y..o??u were .?. sent to invessstigate \n thhehh stran... trans...mision \n Don't forget you shoot with space \n and move with arrows", { 100, 400 }, 21, 1, WHITE);
+                if (IsKeyPressed(KEY_ENTER))
+                {
+                    IsGameStarted = 1;
+                    useShader = 1;
                 }
             }
-            updateLaser(laser);
-
-            updateLaserParticles(laserParticles);
-            drawLaserParticles(laserParticles);
-            chrono::steady_clock::time_point currentTime = chrono::steady_clock::now();
-            if (chrono::duration_cast<chrono::seconds>(currentTime - lastSpawnTime).count() >= AsteroidSpawnTime) {
-                Asteroid asteroid;
-                asteroid.x = GetRandomValue(50, 750);
-                asteroid.y = -20;
-                asteroid.size = GetRandomValue(30, 200);
-                asteroid.active = true;
-                asteroids.push_back(asteroid);
-                lastSpawnTime = currentTime;
-            }
-
-            for (int i = 0; i < asteroids.size(); i++) {
-                updateAsteroid(asteroids[i], laser, particles, TextWindow);
-                drawAsteroid(asteroids[i], asteroid);
-            }
-            updateParticles(particles);
-            drawParticles(particles);
-
-            asteroids.erase(remove_if(asteroids.begin(), asteroids.end(), [](const Asteroid& a) { return !a.active; }), asteroids.end());
-            if (points > 3)
+            else
             {
-                ShouldFightBoss = 1;
-            }
 
+                movement(AstroPosX, AstroPosy);
+                if (IsSound == 0)
+                {
+                    PlaySound(bgm);
+                    IsSound = 1;
+                }
+                if (IsKeyPressed(KEY_SPACE) && IsShootingAllowed == 1) {
+                    laser.active = true;
+                    laser.x = AstroPosX + 25;
+                    laser.y = AstroPosy;
+
+                    for (int i = 0; i < 10; i++) {
+                        LaserParticle particle;
+                        particle.position = { static_cast<float>(laser.x), static_cast<float>(laser.y) };
+                        particle.velocity = { static_cast<float>(GetRandomValue(-2, 2)), static_cast<float>(GetRandomValue(-2, 2)) };
+                        particle.color = RED;
+                        particle.radius = GetRandomValue(1, 3);
+                        particle.lifeSpan = GetRandomValue(10, 30);
+                        particle.active = true;
+                        laserParticles.push_back(particle);
+                    }
+                }
+                updateLaser(laser);
+
+                updateLaserParticles(laserParticles);
+                drawLaserParticles(laserParticles);
+                chrono::steady_clock::time_point currentTime = chrono::steady_clock::now();
+                if (chrono::duration_cast<chrono::seconds>(currentTime - lastSpawnTime).count() >= AsteroidSpawnTime) {
+                    Asteroid asteroid;
+                    asteroid.x = GetRandomValue(50, 750);
+                    asteroid.y = -20;
+                    asteroid.size = GetRandomValue(30, 200);
+                    asteroid.active = true;
+                    asteroids.push_back(asteroid);
+                    lastSpawnTime = currentTime;
+                }
+
+                for (int i = 0; i < asteroids.size(); i++) {
+                    updateAsteroid(asteroids[i], laser, particles, TextWindow);
+                    drawAsteroid(asteroids[i], asteroid);
+                }
+                updateParticles(particles);
+                drawParticles(particles);
+
+                asteroids.erase(remove_if(asteroids.begin(), asteroids.end(), [](const Asteroid& a) { return !a.active; }), asteroids.end());
+                if (points > 3)
+                {
+                    ShouldFightBoss = 1;
+                }
+
+            }
         }
         EndShaderMode();
         drawPoints(points);
