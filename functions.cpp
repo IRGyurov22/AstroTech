@@ -18,6 +18,7 @@ Font font;
 int windowsHeight = 850;
 int windowsWidth = 800;
 
+bool FightBoss = 0;
 bool IsFontLoaded = 0;
 bool IsFontLoadedQuestion = 0;
 bool IsShaderLoaded = 0;
@@ -366,7 +367,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 particle.position = { static_cast<float>(asteroid.x), static_cast<float>(asteroid.y) };
                 particle.velocity = { static_cast<float>(GetRandomValue(-5, 5)), static_cast<float>(GetRandomValue(-5, 5)) };
                 particle.color = GRAY;
-                particle.radius = GetRandomValue(1, 12);
+                particle.radius = GetRandomValue(1, 5);
                 particle.active = true;
                 particles.push_back(particle);
             }
@@ -499,7 +500,10 @@ void initgame()
     Texture2D background = LoadTexture("resources/photos/background.png");
 
     Sound bgm = LoadSound("Sound/SpaceExploration.wav");
+    Sound Danger = LoadSound("Sound/Danger.wav");
+
     chrono::steady_clock::time_point lastSpawnTime = chrono::steady_clock::now();
+
     Shader lighting = LoadShader("resources/shaders/lighting.vs", "resources/shaders/lighting.fs");
 
     float lightPos[] = { 0.0, 0.0 };
@@ -544,55 +548,67 @@ void initgame()
 
         if (ShouldFightBoss == 1)
         {
-
+            if (FightBoss == 0)
+            {
+                DrawTextEx(font, "You won congratulations\nor did you\nyou passed my test\n(press enter to fight ???)", { 100, 400 }, 21, 1, WHITE);
+                if (IsKeyPressed(KEY_ENTER))
+                {
+                    FightBoss = 1;
+                    UnloadSound(bgm);
+                    PlaySound(Danger);
+               }
+            }
+            else
+            {
                 DrawTexture(boss, bossx, 50, BLUE);
                 ambientStrength = 0.1;
                 SetShaderValue(lighting, ambientStrengthLocation, &ambientStrength, SHADER_UNIFORM_FLOAT);
-            movement(AstroPosX, AstroPosy);
-            if (IsKeyPressed(KEY_SPACE) && IsShootingAllowed == 1) {
-                laser.active = true;
-                laser.x = AstroPosX + 25;
-                laser.y = AstroPosy;
+                movement(AstroPosX, AstroPosy);
+                if (IsKeyPressed(KEY_SPACE) && IsShootingAllowed == 1) {
+                    laser.active = true;
+                    laser.x = AstroPosX + 25;
+                    laser.y = AstroPosy;
 
-                for (int i = 0; i < 10; i++) {
-                    LaserParticle particle;
-                    particle.position = { static_cast<float>(laser.x), static_cast<float>(laser.y) };
-                    particle.velocity = { static_cast<float>(GetRandomValue(-2, 2)), static_cast<float>(GetRandomValue(-2, 2)) };
-                    particle.color = RED;
-                    particle.radius = GetRandomValue(1, 3);
-                    particle.lifeSpan = GetRandomValue(10, 30);
-                    particle.active = true;
-                    laserParticles.push_back(particle);
-                } 
-            }
-            
-            if (IsShootingAllowed == 1) {
-                bossShootTimer += GetFrameTime();
-                if (bossShootTimer >= BossShootCooldown) {
-                    
-                    bossLaser.active = true;
-                    bossLaser.x = bossx + 25;
-                    bossLaser.y = 50;
                     for (int i = 0; i < 10; i++) {
-                        BossLaserParticle particle;
-                        particle.position = { static_cast<float>(bossLaser.x), static_cast<float>(bossLaser.y) };
+                        LaserParticle particle;
+                        particle.position = { static_cast<float>(laser.x), static_cast<float>(laser.y) };
                         particle.velocity = { static_cast<float>(GetRandomValue(-2, 2)), static_cast<float>(GetRandomValue(-2, 2)) };
-                        particle.color = BLACK;
+                        particle.color = RED;
                         particle.radius = GetRandomValue(1, 3);
                         particle.lifeSpan = GetRandomValue(10, 30);
                         particle.active = true;
-                        bossLaserParticles.push_back(particle);
+                        laserParticles.push_back(particle);
                     }
-                    bossShootTimer = 0.0;
                 }
+
+                if (IsShootingAllowed == 1) {
+                    bossShootTimer += GetFrameTime();
+                    if (bossShootTimer >= BossShootCooldown) {
+
+                        bossLaser.active = true;
+                        bossLaser.x = bossx + 25;
+                        bossLaser.y = 50;
+                        for (int i = 0; i < 10; i++) {
+                            BossLaserParticle particle;
+                            particle.position = { static_cast<float>(bossLaser.x), static_cast<float>(bossLaser.y) };
+                            particle.velocity = { static_cast<float>(GetRandomValue(-2, 2)), static_cast<float>(GetRandomValue(-2, 2)) };
+                            particle.color = BLACK;
+                            particle.radius = GetRandomValue(1, 3);
+                            particle.lifeSpan = GetRandomValue(10, 30);
+                            particle.active = true;
+                            bossLaserParticles.push_back(particle);
+                        }
+                        bossShootTimer = 0.0;
+                    }
+                }
+                updateBossLaser(bossLaser);
+                updateBossLaserParticles(bossLaserParticles);
+
+                drawBossLaserParticles(bossLaserParticles);
+                drawBossLaser(bossLaser);
+                bossmovement(bossx);
+                updateLaser(laser);
             }
-            updateBossLaser(bossLaser);
-            updateBossLaserParticles(bossLaserParticles);
-            
-            drawBossLaserParticles(bossLaserParticles);
-            drawBossLaser(bossLaser);
-            bossmovement(bossx);
-            updateLaser(laser);
         }
         else {
             if (IsGameStarted == 0)
