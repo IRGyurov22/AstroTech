@@ -1,7 +1,6 @@
 #include "functions.h"
 #include "raylib.h"
 #include "Draws.h"
-#include "Update.h"
 #include <chrono>
 #include <thread>
 #include <string>
