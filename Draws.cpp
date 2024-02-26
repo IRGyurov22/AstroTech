@@ -22,7 +22,7 @@ void drawLaserParticles(const std::vector<LaserParticle>& particles) {
 
 void drawBossLaser(const BossLaser& bossLaser) {
     if (bossLaser.active) {
-        DrawRectangle(bossLaser.x, bossLaser.y, 20, 50, BLANK);
+        DrawRectangle(bossLaser.x, bossLaser.y+25, 20, 50, BLANK);
     }
 }
 

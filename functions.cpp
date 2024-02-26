@@ -45,6 +45,7 @@ bool IsGameStarted = 0;
 
 int QuestionNumber = GetRandomValue(1, 10);
 
+int bossHealth = 10;
 
 int laserspeed = 7;
 Vector2 laserPosition = { 0, 0 };
@@ -417,7 +418,7 @@ void updateLaserPositionAndIntensity(const Laser& laser) {
 
 void updateBossLaser(BossLaser& bossLaser) {
     if (bossLaser.active) {
-        bossLaser.y += laserspeed;
+        bossLaser.y += 25;
         if (bossLaser.y >= 800) {
             bossLaser.active = false;
         }
@@ -473,6 +474,28 @@ void bossmovement(int &bossx)
     }
 
     bossx = smooth(bossx, target, 0.1);
+}
+
+void HandleLaserBossCollision(Laser& laser, int& bossHealth, int bossx) {
+    if (laser.active) {
+        Rectangle laserRect = { laser.x, laser.y, 5, 10 }; 
+        Rectangle bossRect = { bossx, 50, 500, 250 };
+        
+        if (CheckCollisionRecs(laserRect, bossRect)) {
+            bossHealth--; 
+            laser.active = false; 
+            laser.y = 1000;
+        }
+    }
+}
+
+void HandlePlayerHitByBossLaser(int& AstroPosX, int& AstroPosy, BossLaser bossLaser) {
+    Rectangle playerRect = { AstroPosX, AstroPosy, 100, 80 }; 
+    Rectangle laserRect = { bossLaser.x, bossLaser.y, 20, 50 }; 
+
+    if (CheckCollisionRecs(playerRect, laserRect)) {
+       CloseWindow();
+    }
 }
 
 void initgame()
@@ -560,8 +583,12 @@ void initgame()
             }
             else
             {
+                if (IsSoundPlaying(Danger) == 0)
+                {
+                    PlaySound(Danger);
+                }
                 DrawTexture(boss, bossx, 50, BLUE);
-                ambientStrength = 0.1;
+                ambientStrength = 0.07;
                 SetShaderValue(lighting, ambientStrengthLocation, &ambientStrength, SHADER_UNIFORM_FLOAT);
                 movement(AstroPosX, AstroPosy);
                 if (IsKeyPressed(KEY_SPACE) && IsShootingAllowed == 1) {
@@ -586,7 +613,7 @@ void initgame()
                     if (bossShootTimer >= BossShootCooldown) {
 
                         bossLaser.active = true;
-                        bossLaser.x = bossx + 25;
+                        bossLaser.x = GetRandomValue(200,500);
                         bossLaser.y = 50;
                         for (int i = 0; i < 10; i++) {
                             BossLaserParticle particle;
@@ -608,6 +635,13 @@ void initgame()
                 drawBossLaser(bossLaser);
                 bossmovement(bossx);
                 updateLaser(laser);
+                HandlePlayerHitByBossLaser(AstroPosX, AstroPosy, bossLaser);
+                HandleLaserBossCollision(laser, bossHealth, bossx);
+                if (bossHealth == 0){
+                IsShootingAllowed = 0;
+                    DrawTextEx(font, "Congratulations you win\nAstro you can go home now mission complete\n(Press enter to exit)", { 100, 400 }, 21, 1, WHITE);
+                    if(IsKeyPressed(KEY_ENTER)) CloseWindow();
+                }
             }
         }
         else {
@@ -678,6 +712,7 @@ void initgame()
             }
         }
         EndShaderMode();
+        if (ShouldFightBoss == 1) DrawText(TextFormat("Boss Health: %d", bossHealth), 0, 20, 20, WHITE);
         drawPoints(points);
         EndDrawing();
 
