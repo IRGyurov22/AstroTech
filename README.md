@@ -12,8 +12,8 @@
 | :---:   | :---: | :---: |
 | Ivaylo Gyurov | *Scrum trainer* | 🟥 9B |
 | Kaloyan Ivanov | *Back-end developer*  | 🟥 9B |
-| Alexander Ivanov | *Front-end developer*  | 🟥 9B |
-| Daniel Hristov |  *Front-end developer*  | 🟥 9B |
+| Alexander Ivanov | *Back-end developer*  | 🟥 9B |
+| Daniel Hristov |  *Back-end developer*  | 🟥 9B |
 
 ## 📋 Description
 Welcome to the AstroTech repository, the forefront of cosmic exploration and innovation. AstroTech is a group of innovative people who created a game where you navigate a spaceship through the cosmos, tasked with the mission to destroy incoming asteroids.
