@@ -18,6 +18,8 @@ int main()
     Texture2D background = LoadTexture("resources/photos/background.png");
     auto font = LoadFont("resources/fonts/Anta-Regular.ttf");
 
+    bool startgame = 0;
+
     while (!WindowShouldClose())
     {
         BeginDrawing();
@@ -31,8 +33,9 @@ int main()
         DrawTextEx(font, "EXIT", { 345, 490 }, 65, 1, WHITE);
         if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), start))
         {
+            startgame = 1;
             CloseWindow();
-            initgame();
+            break;
         }
 
         if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), exit))
@@ -42,5 +45,9 @@ int main()
         }
 
         EndDrawing();
+    }
+    if (startgame)
+    {
+        initgame();
     }
 }
