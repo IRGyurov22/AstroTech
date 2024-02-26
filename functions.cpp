@@ -355,7 +355,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                     particle.active = true;
                     particles.push_back(particle);
                 }
-                QuestionNumber = GetRandomValue(10, 10);
+                QuestionNumber = GetRandomValue(1, 10);
                 IsQuestionAnsweared = 0;
                 laserspeed = 7;
                 movementSpeed = 4;
