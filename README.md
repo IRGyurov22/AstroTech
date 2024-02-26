@@ -14,6 +14,7 @@
 | Kaloyan Ivanov | *Back-end developer*  | 🟥 9B |
 | Alexander Ivanov | *Back-end developer*  | 🟥 9B |
 | Daniel Hristov |  *Back-end developer*  | 🟥 9B |
+| Antonia Taneva |  *Mentor*  | 🟩 10V |
 
 ## 📋 Description
 Welcome to the AstroTech repository, the forefront of cosmic exploration and innovation. AstroTech is a group of innovative people who created a game where you navigate a spaceship through the cosmos, tasked with the mission to destroy incoming asteroids.
@@ -21,11 +22,11 @@ Welcome to the AstroTech repository, the forefront of cosmic exploration and inn
 ## 📝 Documents
 <h4>Documents</h4>
   <ul>
-    <li><a href="./Documentation/Documentation-AstroTech.docx">Documentation</a></li>
+    <li> <img src="https://img.icons8.com/fluency/48/000000/microsoft-word-2019.png" alt="MS Word logo" width=20px /> <a href="./Documentation/Documentation-AstroTech.docx">Documentation</a></li>
   </ul> 
 <h4>Presenting</h4>
   <ul>    
-    <li><a href="./Documentation/Presentation-AstroTech.pptx">Presentation</a></li>
+    <li> <img src="https://img.icons8.com/fluency/48/000000/microsoft-powerpoint-2019.png" alt="MS Word logo" width=20px /> <a href="./Documentation/Presentation-AstroTech.pptx">Presentation</a></li>
   </ul> 
 
   ## ⚒️ Used technologies
@@ -37,11 +38,11 @@ Welcome to the AstroTech repository, the forefront of cosmic exploration and inn
   <a href="https://git-scm.com/"><img src="https://img.icons8.com/color/48/000000/git.png" alt="Git"/></a>
   <a href="https://git-scm.com/"><img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" heigh=48px width=48px/></a>
   <a href="https://discord.com/"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png"  heigh=48px width=48px/></a>
+  <a><img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/Raylib_logo.png" heigh=48px width=48px/></a>
 </p> 
     
 ## 💻 Languages
 <p>
 <a><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/1200px-ISO_C%2B%2B_Logo.svg.png" heigh=48px width=48px/></a>
-<a><img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/Raylib_logo.png" heigh=48px width=48px/></a>
 </p>
 
