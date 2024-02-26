@@ -599,7 +599,7 @@ void initgame()
             {
                 useShader = 0;
                 DrawRectangle(100, 400, 600, 200, BLANK);
-                DrawTextEx(font, " Hello Astro,\n Y..o??u were .?. sent to invessstigate \n thhehh stran... trans...mision \n Don't forget you shoot with space \n and move with arrows", { 100, 400 }, 21, 1, WHITE);
+                DrawTextEx(font, " Hello Astro,\n Y..o??u were .?. sent to invessstigate \n thhehh stran... trans...mision \n Don't forget you shoot with space. \n and move with arrows. \n (Press enter to start)", { 100, 400 }, 21, 1, WHITE);
                 if (IsKeyPressed(KEY_ENTER))
                 {
                     IsGameStarted = 1;

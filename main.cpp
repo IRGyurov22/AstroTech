@@ -25,10 +25,11 @@ int main()
         DrawRectangleRec(start, BLANK);
         DrawRectangleRec(settings, BLANK);
         DrawRectangleRec(exit, BLANK);
+        DrawTextEx(font, "Space Cadet", { 265, 100 }, 65, 1, WHITE);
+        DrawTextEx(font, "by AstroTech", { 310, 170 }, 40, 1, WHITE);
         DrawTextEx(font, "START", { 355, 340 }, 35, 1, WHITE);
         DrawTextEx(font, "SETTINGS", { 335, 440 }, 35, 1, WHITE);
         DrawTextEx(font, "EXIT", { 370, 540 }, 35, 1, WHITE);
-
         if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), start))
         {
             CloseWindow();
