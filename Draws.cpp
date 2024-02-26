@@ -1,6 +1,10 @@
 #include "functions.h"
 #include "raylib.h"
 #include "Draws.h"
+<<<<<<< HEAD
+=======
+
+>>>>>>> 95ec3e5515ea1b52a322c521e6981fe8e7c5eed9
 #include <chrono>
 #include <thread>
 #include <string>
@@ -21,7 +25,7 @@ void drawLaserParticles(const std::vector<LaserParticle>& particles) {
 
 void drawBossLaser(const BossLaser& bossLaser) {
     if (bossLaser.active) {
-        DrawRectangle(bossLaser.x, bossLaser.y, 20, 50, BLANK);
+        DrawRectangle(bossLaser.x, bossLaser.y+25, 20, 50, BLANK);
     }
 }
 
