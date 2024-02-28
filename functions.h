@@ -2,7 +2,12 @@
 
 #include "raylib.h"
 #include <vector>
-
+#include "draws.h"
+#include "bossfunctions.h"
+#include "movement.h"
+#include <chrono>
+#include <thread>
+#include <string>
 using namespace std;
 
 
@@ -59,8 +64,6 @@ void updateLaserParticles(vector<LaserParticle>& particles);
 void updateParticles(vector<Particle>& particles);
 
 void updateLaserPositionAndIntensity(const Laser& laser);
-
-void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particles, Texture2D TextWindow);
 
 void initgame();
 

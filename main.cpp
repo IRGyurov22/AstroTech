@@ -30,7 +30,6 @@ int main()
         DrawTextEx(font, "Space Cadet", { 245, 100 }, 65, 1, WHITE);
         DrawTextEx(font, "by AstroTech", { 302, 170 }, 40, 1, WHITE);
         DrawTextEx(font, "START", { 320, 350 }, 55, 1, WHITE);
-        DrawTextEx(font, "CONTROLS", { 275, 460 }, 55, 1, WHITE);
         DrawTextEx(font, "EXIT", { 343, 570 }, 55, 1, WHITE);
         if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), start))
         {
