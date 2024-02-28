@@ -403,6 +403,7 @@ void initgame()
     InitWindow(windowsWidth, windowsHeight, "AstoGame");
     SetTargetFPS(60);
 
+    Texture2D failBackground = LoadTexture("resources/photos/failBackground.png");
     Texture2D TextWindow = LoadTexture("resources/photos/QuestionTextBox.png");
     Texture2D ship = LoadTexture("resources/photos/ship.png");
     Texture2D boss = LoadTexture("resources/photos/boss.png");
@@ -454,7 +455,7 @@ void initgame()
             IsShaderLoaded = 1;
         }
         DrawTexture(background, 0, 0, WHITE);
-        DrawTexture(ship, AstroPosX, AstroPosy, WHITE);
+        DrawTexture(ship, AstroPosX, AstroPosy, WHITE); 
 
         if (ShouldFightBoss == 1)
         {
@@ -606,14 +607,14 @@ void initgame()
         EndShaderMode();
         if (points == -1)
         {
-            DrawTexture(TextWindow, 105, 210, GRAY);
-            DrawText("Game over", 200, 400, 21, WHITE);
+            DrawTexture(failBackground, 165, 210, GRAY);
+            DrawTextEx(font, "Game over", { 200, 400 } , 21, 1, WHITE);
             RestartGame = 0;
             MovementSpeed = 0;
             IsShootingAllowed = 0;
             AsteroidSpawnTime = 9999999;
             asteroidspeed = 0;
-            DrawText("Try again", 200, 500, 21, WHITE);
+            DrawTextEx(font, "Try again", { 200, 500 }, 21, 1, WHITE);
             DrawRectangle(200, 500, 200, 200, WHITE);
             if (RestartGame == 0)
             {
