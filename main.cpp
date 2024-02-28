@@ -19,7 +19,7 @@ int main()
     auto font = LoadFont("resources/fonts/Anta-Regular.ttf");
 
     bool startgame = 0;
-
+    bool exitgame = 0;
     while (!WindowShouldClose())
     {
         BeginDrawing();
@@ -40,8 +40,8 @@ int main()
 
         if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), exit))
         {
-            CloseWindow();
-            
+            exitgame = 0;
+            break;
         }
 
         EndDrawing();
@@ -49,5 +49,9 @@ int main()
     if (startgame)
     {
         initgame();
+    }
+    if (exitgame)
+    {
+        CloseWindow();
     }
 }

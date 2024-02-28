@@ -12,6 +12,7 @@
 #define GLSL_VERSION            100
 #endif
 
+bool EndGame = 0;
 
 Font font;
 
@@ -22,7 +23,7 @@ bool FightBoss = 0;
 bool IsFontLoaded = 0;
 bool IsFontLoadedQuestion = 0;
 bool IsShaderLoaded = 0;
-bool ShouldFightBoss = 0;
+bool ShouldFightBoss = 1;
 
 Rectangle answear1 = { 130, 415, 240, 50 };
 Rectangle answear2 = { 440, 415, 240, 50 };
@@ -502,7 +503,7 @@ void HandlePlayerHitByBossLaser(int& AstroPosX, int& AstroPosy, BossLaser bossLa
     Rectangle laserRect = { bossLaser.x, bossLaser.y, 20, 50 }; 
 
     if (CheckCollisionRecs(playerRect, laserRect)) {
-       CloseWindow();
+        EndGame = 1;
     }
 }
 
@@ -648,7 +649,11 @@ void initgame()
                 if (bossHealth == 0){
                 IsShootingAllowed = 0;
                     DrawTextEx(font, "Congratulations you win\nAstro you can go home now mission complete\n(Press enter to exit)", { 100, 400 }, 21, 1, WHITE);
-                    if(IsKeyPressed(KEY_ENTER)) CloseWindow();
+                    if (IsKeyPressed(KEY_ENTER))
+                    {
+                        EndGame = 1;
+                        break;
+                    }
                 }
             }
         }
@@ -722,6 +727,7 @@ void initgame()
         EndShaderMode();
         if (ShouldFightBoss == 1) DrawText(TextFormat("Boss Health: %d", bossHealth), 0, 20, 20, WHITE);
         drawPoints(points);
+        if (EndGame) break;
         EndDrawing();
 
         auto end = chrono::steady_clock::now();
@@ -730,6 +736,5 @@ void initgame()
             this_thread::sleep_for(chrono::milliseconds(16) - diff);
         }
     }
-
-    CloseWindow();
+    if (EndGame) { CloseWindow(); }
 }
