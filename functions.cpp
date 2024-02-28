@@ -48,6 +48,7 @@ Vector2 laserPosition = { 0, 0 };
 float laserIntensity = 0.0f;
 Vector3 laserColor = { 1.0f, 0.0f, 0.0f };
 
+// If laser hit an asteroid a question is reviewed, the font is changed, the score is updated depending whether question is answared right or not.
 void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particles, Texture2D TextWindow) {
 
     if (asteroid.active) {
@@ -334,7 +335,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
     }
 }
 
-
+// Update the laser.
 void updateLaser(Laser& laser) {
     if (laser.active) {
         laser.y -= laserspeed;
@@ -344,6 +345,7 @@ void updateLaser(Laser& laser) {
     }
 }
 
+// Update the particles that are shown in the laser.
 void updateLaserParticles(std::vector<LaserParticle>& particles) {
     for (auto& particle : particles) {
         if (particle.active) {
@@ -357,6 +359,7 @@ void updateLaserParticles(std::vector<LaserParticle>& particles) {
     }
 }
 
+// Update the particles.
 void updateParticles(std::vector<Particle>& particles) {
     for (auto& particle : particles) {
         if (particle.active) {
@@ -366,6 +369,7 @@ void updateParticles(std::vector<Particle>& particles) {
     }
 }
 
+// Update the laser position and intensity.
 void updateLaserPositionAndIntensity(const Laser& laser) {
     laserPosition.x = laser.x - 25;
     laserPosition.y = laser.y;
@@ -376,6 +380,7 @@ void updateLaserPositionAndIntensity(const Laser& laser) {
     }
 }
 
+// Create the game. Initiate the audio, the texture and the shaders to the game.
 void initgame()
 {
     int AstroPosX = 375;
