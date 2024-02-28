@@ -22,7 +22,8 @@ bool IsFontLoadedQuestion = 0;
 bool IsShaderLoaded = 0;
 bool ShouldFightBoss = 0;
 
-Rectangle RestartButton = { 200, 500,200,200 };
+Rectangle RestartButton = { 320, 380, 165, 50 };
+Rectangle Exit = { 340, 510, 120, 50 };
 
 Rectangle answer[4] = { 
     {130, 415, 240, 50},
@@ -274,7 +275,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 }
                 break;
             case 10:
-                DrawTextEx(font, "Which of the following space agencies \n uses a spacecraft named Hayabusa ?", { 110, 250 }, 38, 1, WHITE);
+                DrawTextEx(font, " Which of the following space agencies \n uses a spacecraft named Hayabusa ?", { 110, 250 }, 38, 1, WHITE);
                 DrawRectangleRec(answer[0], BLANK);
                 DrawTextEx(font, "1. National Aeronautics and \n Space Administration(NASA)", { 140, 415 }, 17, 1, WHITE);
                 DrawRectangleRec(answer[1], BLANK);
@@ -292,7 +293,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 else if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && (CheckCollisionPointRec(GetMousePosition(), answer[2]) || CheckCollisionPointRec(GetMousePosition(), answer[1]) || CheckCollisionPointRec(GetMousePosition(), answer[0])))
                 {
                     IsQuestionAnsweared = 1;
-                    points++;
+                    points--;
                 }
                 break;
             }
@@ -400,7 +401,7 @@ void initgame()
     std::vector<BossLaserParticle> bossLaserParticles;
 
     InitAudioDevice();
-    InitWindow(windowsWidth, windowsHeight, "AstoGame");
+    InitWindow(windowsWidth, windowsHeight, "Space Cadat");
     SetTargetFPS(60);
 
     Texture2D failBackground = LoadTexture("resources/photos/failBackground.png");
@@ -454,6 +455,7 @@ void initgame()
             SetShaderValue(lighting, GetShaderLocation(lighting, "lightColor"), &laserColor, SHADER_UNIFORM_VEC3);
             IsShaderLoaded = 1;
         }
+
         DrawTexture(background, 0, 0, WHITE);
         DrawTexture(ship, AstroPosX, AstroPosy, WHITE); 
 
@@ -606,15 +608,17 @@ void initgame()
         EndShaderMode();
         if (points == -1)
         {
-            DrawTexture(failBackground, 165, 210, GRAY);
-            DrawTextEx(font, "Game over", { 200, 400 } , 21, 1, WHITE);
+            DrawTexture(failBackground, 160, 210, GRAY);
+            DrawTextEx(font, "Game over", { 250, 250 } , 75, 1, WHITE);
             RestartGame = 0;
             MovementSpeed = 0;
             IsShootingAllowed = 0;
             AsteroidSpawnTime = 9999999;
             asteroidspeed = 0;
-            DrawTextEx(font, "Try again", { 200, 500 }, 21, 1, WHITE);
-            DrawRectangle(200, 500, 200, 200, WHITE);
+            DrawTextEx(font, "Try again", { 310, 380 }, 55, 1, WHITE);
+            DrawTextEx(font, "Exit", { 360, 510 }, 55, 1, WHITE);
+            DrawRectangle(310, 380, 165, 50, BLANK);
+            DrawRectangle(330, 510, 120, 50, BLANK);
             if (RestartGame == 0)
             {
                 if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), RestartButton)) {
@@ -626,7 +630,15 @@ void initgame()
                     asteroidspeed = 2;
                 }
             }
+
+            if (RestartGame == 0)
+            {
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), Exit)) {
+                    EndGame = 1;
+                }
+            }
         }
+
         if (ShouldFightBoss == 1) DrawText(TextFormat("Boss Health: %d", bossHealth), 0, 20, 20, WHITE);
         drawPoints(points);
         if (EndGame) break;
