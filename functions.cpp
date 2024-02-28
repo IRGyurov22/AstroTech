@@ -14,12 +14,15 @@ Font font;
 
 int windowsHeight = 850;
 int windowsWidth = 800;
+bool RestartGame = 0;
 
 bool FightBoss = 0;
 bool IsFontLoaded = 0;
 bool IsFontLoadedQuestion = 0;
 bool IsShaderLoaded = 0;
 bool ShouldFightBoss = 0;
+
+Rectangle RestartButton = { 200, 500,200,200 };
 
 Rectangle answear1 = { 130, 415, 240, 50 };
 Rectangle answear2 = { 440, 415, 240, 50 };
@@ -38,6 +41,7 @@ bool IsSound = 0;
 bool IsShootingAllowed = 1;
 bool useShader = 1;
 bool IsGameStarted = 0;
+
 
 int QuestionNumber = GetRandomValue(1, 10);
 
@@ -317,7 +321,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 laser.y = 1000;
                 IsFontLoadedQuestion = 0;
             }
-
+           
         }
 
         if (asteroid.y >= windowsHeight) {
@@ -599,6 +603,29 @@ void initgame()
             }
         }
         EndShaderMode();
+        if (points == -1)
+        {
+            DrawTexture(TextWindow, 105, 210, GRAY);
+            DrawText("Game over", 200, 400, 21, WHITE);
+            RestartGame = 0;
+            MovementSpeed = 0;
+            IsShootingAllowed = 0;
+            AsteroidSpawnTime = 9999999;
+            asteroidspeed = 0;
+            DrawText("Try again", 200, 500, 21, WHITE);
+            DrawRectangle(200, 500, 200, 200, WHITE);
+            if (RestartGame == 0)
+            {
+                if ((IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)) && CheckCollisionPointRec(GetMousePosition(), RestartButton)) {
+                    MovementSpeed = 4;
+                    IsShootingAllowed = 1;
+                    points = 0;
+                    RestartGame = 1;
+                    AsteroidSpawnTime = 5;
+                    asteroidspeed = 2;
+                }
+            }
+        }
         if (ShouldFightBoss == 1) DrawText(TextFormat("Boss Health: %d", bossHealth), 0, 20, 20, WHITE);
         drawPoints(points);
         if (EndGame) break;
