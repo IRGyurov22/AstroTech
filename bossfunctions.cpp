@@ -3,6 +3,7 @@
 #include "draws.h"
 #include "functions.h"
 
+// Update the boss laser.
 void updateBossLaser(BossLaser& bossLaser) {
     if (bossLaser.active) {
         bossLaser.y += 25;
@@ -12,6 +13,7 @@ void updateBossLaser(BossLaser& bossLaser) {
     }
 }
 
+// Update the boss laser particles.
 void updateBossLaserParticles(std::vector<BossLaserParticle>& particles) {
     for (auto& particle : particles) {
         if (particle.active) {
@@ -30,6 +32,7 @@ float smooth(float a, float b, float t) {
     return a + t * (b - a);
 }
 
+// Update the boss shooting.
 void bossShoot(std::vector<LaserParticle>& laserParticles, int bossx) {
     for (int i = 0; i < 10; i++) {
 
@@ -43,6 +46,8 @@ void bossShoot(std::vector<LaserParticle>& laserParticles, int bossx) {
         laserParticles.push_back(particle);
     }
 }
+
+// Implament the boss movement.
 void bossmovement(int& bossx)
 {
     int direction = GetRandomValue(1, 2);
@@ -63,6 +68,7 @@ void bossmovement(int& bossx)
     bossx = smooth(bossx, target, 0.1);
 }
 
+// When the laser hit the box.
 void HandleLaserBossCollision(Laser& laser, int& bossHealth, int bossx) {
     if (laser.active) {
         Rectangle laserRect = { laser.x, laser.y, 5, 10 };
@@ -76,6 +82,7 @@ void HandleLaserBossCollision(Laser& laser, int& bossHealth, int bossx) {
     }
 }
 
+// When the player was hitted by the boss's laser.
 void HandlePlayerHitByBossLaser(int& AstroPosX, int& AstroPosy, BossLaser bossLaser,bool& EndGame) {
     Rectangle playerRect = { AstroPosX, AstroPosy, 100, 80 };
     Rectangle laserRect = { bossLaser.x, bossLaser.y, 20, 50 };

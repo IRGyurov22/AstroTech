@@ -12,7 +12,6 @@ int main()
     InitWindow(menuWidth, menuHeight, "Menu");
 
     Rectangle start = { 300, 325, 200, 100 };
-    Rectangle controls = { 300, 400, 200, 100 };
     Rectangle exit = { 300, 500, 200, 100 };   
     
     Texture2D background = LoadTexture("resources/photos/background.png");
@@ -25,7 +24,6 @@ int main()
         BeginDrawing();
         DrawTexture(background, 0, 0, WHITE);
         DrawRectangleRec(start, BLANK);
-        DrawRectangleRec(controls, BLANK);
         DrawRectangleRec(exit, BLANK);
         DrawTextEx(font, "Space Cadet", { 245, 100 }, 65, 1, WHITE);
         DrawTextEx(font, "by AstroTech", { 302, 170 }, 40, 1, WHITE);

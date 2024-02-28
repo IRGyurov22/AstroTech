@@ -1,6 +1,7 @@
 #include "movement.h"
 #include "raylib.h"
 
+// Define the movement of the game.
  void movement(int& AstroPosX, int& AstroPosy,int& MovementSpeed) {
     if (IsKeyDown(KEY_RIGHT)) {
         if (AstroPosX + MovementSpeed > 800)
