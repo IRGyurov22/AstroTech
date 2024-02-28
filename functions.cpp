@@ -588,8 +588,9 @@ void initgame()
                 }
 
                 for (int i = 0; i < asteroids.size(); i++) {
-                    updateAsteroid(asteroids[i], laser, particles, TextWindow);
                     drawAsteroid(asteroids[i], asteroid);
+                    updateAsteroid(asteroids[i], laser, particles, TextWindow);
+                    
                 }
                 updateParticles(particles);
                 drawParticles(particles);
