@@ -1,7 +1,7 @@
 #include "movement.h"
 #include "raylib.h"
 
-void movement(int& AstroPosX, int& AstroPosy,int& MovementSpeed) {
+ void movement(int& AstroPosX, int& AstroPosy,int& MovementSpeed) {
     if (IsKeyDown(KEY_RIGHT)) {
         if (AstroPosX + MovementSpeed > 800)
         {

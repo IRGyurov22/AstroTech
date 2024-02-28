@@ -5,12 +5,14 @@
 #include <thread>
 #include <string>
 
+// Draw the laser.
 void drawLaser(const Laser& laser) {
     if (laser.active) {
         DrawRectangle(laser.x + 21, laser.y, 5, 20, BLANK);
     }
 }
 
+// Draw the laser particles.
 void drawLaserParticles(const std::vector<LaserParticle>& particles) {
     for (const auto& particle : particles) {
         if (particle.active) {
@@ -19,12 +21,14 @@ void drawLaserParticles(const std::vector<LaserParticle>& particles) {
     }
 }
 
-void drawBossLaser(const BossLaser& bossLaser) {
+// Draw the boss laser.
+void drawBossLaser(const BossLaser& bossLaser) { 
     if (bossLaser.active) {
         DrawRectangle(bossLaser.x, bossLaser.y+25, 20, 50, BLANK);
     }
 }
 
+// Draw the boss laser particles.
 void drawBossLaserParticles(const std::vector<BossLaserParticle>& particles) {
     for (const auto& particle : particles) {
         if (particle.active) {
@@ -33,12 +37,14 @@ void drawBossLaserParticles(const std::vector<BossLaserParticle>& particles) {
     }
 }
 
+// Draw the asteroid.
 void drawAsteroid(const Asteroid& asteroid, Texture2D texture) {
     if (asteroid.active) {
         DrawTexture(texture, asteroid.x, asteroid.y, WHITE);
     }
 }
 
+// Draw the particles.
 void drawParticles(const std::vector<Particle>& particles) {
     for (const auto& particle : particles) {
         if (particle.active) {
@@ -47,6 +53,7 @@ void drawParticles(const std::vector<Particle>& particles) {
     }
 }
 
+// Draw the points.
 void drawPoints(int points) {
     std::string pointsStr = std::to_string(points);
     DrawText(("Score: " + pointsStr).c_str(), 0, 0, 20, WHITE);
