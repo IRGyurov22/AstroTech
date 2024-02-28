@@ -1,5 +1,4 @@
-#ifndef FUNCTIONS_H
-#define FUNCTIONS_H
+#pragma once
 
 #include "raylib.h"
 #include <vector>
@@ -18,7 +17,7 @@ struct Asteroid {
     int y;
     int size;
     bool active;
-    
+
 };
 
 struct Particle {
@@ -41,7 +40,7 @@ struct LaserParticle {
 struct BossLaser {
     float x;
     float y;
-    bool active; 
+    bool active;
 };
 
 struct BossLaserParticle {
@@ -53,16 +52,15 @@ struct BossLaserParticle {
     bool active;
 };
 
-void movement(int& sposx, int& sposy);
 void updateLaser(Laser& laser);
-void updateLaserParticles(std::vector<LaserParticle>& particles);
-void updateAsteroid(Asteroid& asteroid, Laser& laser, std::vector<Particle>& particles, Texture2D TextWindow);
-void updateParticles(std::vector<Particle>& particles);
+
+void updateLaserParticles(vector<LaserParticle>& particles);
+
+void updateParticles(vector<Particle>& particles);
+
 void updateLaserPositionAndIntensity(const Laser& laser);
-void updateBossLaser(BossLaser& bossLaser);
-void updateBossLaserParticles(std::vector<BossLaserParticle>& particles);
-void bossmovement(int& bossx);
+
+void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particles, Texture2D TextWindow);
+
 void initgame();
 
-
-#endif 

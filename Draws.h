@@ -1,5 +1,4 @@
-#ifndef DRAWS_H
-#define DRAWS_H
+#pragma once
 
 #include "functions.h"
 #include "raylib.h"
@@ -24,4 +23,3 @@ void drawAsteroid(const Asteroid& asteroid, Texture2D texture);
 void drawParticles(const std::vector<Particle>& particles);
 void drawPoints(int points);
 
-#endif 

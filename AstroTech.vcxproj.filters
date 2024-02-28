@@ -15,7 +15,13 @@
     <ClCompile Include="functions.cpp">
       <Filter>source file</Filter>
     </ClCompile>
-    <ClCompile Include="Draws.cpp">
+    <ClCompile Include="draws.cpp">
+      <Filter>source file</Filter>
+    </ClCompile>
+    <ClCompile Include="bossfunctions.cpp">
+      <Filter>source file</Filter>
+    </ClCompile>
+    <ClCompile Include="movement.cpp">
       <Filter>source file</Filter>
     </ClCompile>
   </ItemGroup>
@@ -23,7 +29,13 @@
     <ClInclude Include="functions.h">
       <Filter>header file</Filter>
     </ClInclude>
-    <ClInclude Include="Draws.h">
+    <ClInclude Include="draws.h">
+      <Filter>header file</Filter>
+    </ClInclude>
+    <ClInclude Include="bossfunctions.h">
+      <Filter>header file</Filter>
+    </ClInclude>
+    <ClInclude Include="movement.h">
       <Filter>header file</Filter>
     </ClInclude>
   </ItemGroup>

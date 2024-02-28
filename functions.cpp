@@ -1,7 +1,8 @@
 #include "functions.h"
 #include "raylib.h"
-#include "Draws.h"
-
+#include "draws.h"
+#include "bossfunctions.h"
+#include "movement.h"
 #include <chrono>
 #include <thread>
 #include <string>
@@ -23,14 +24,14 @@ bool FightBoss = 0;
 bool IsFontLoaded = 0;
 bool IsFontLoadedQuestion = 0;
 bool IsShaderLoaded = 0;
-bool ShouldFightBoss = 1;
+bool ShouldFightBoss = 0;
 
 Rectangle answear1 = { 130, 415, 240, 50 };
 Rectangle answear2 = { 440, 415, 240, 50 };
 Rectangle answear3 = { 130, 525, 240, 50 };
 Rectangle answear4 = { 440, 525, 240, 50 };
 
-int movementSpeed = 4;
+int MovementSpeed = 4;
 int asteroidspeed = 2;
 
 bool IsQuestionAnsweared = 0;
@@ -52,54 +53,48 @@ Vector2 laserPosition = { 0, 0 };
 float laserIntensity = 0.0f;
 Vector3 laserColor = { 1.0f, 0.0f, 0.0f };
 
-void movement(int& AstroPosX, int& AstroPosy) {
-    if (IsKeyDown(KEY_RIGHT)) {
-        if (AstroPosX + movementSpeed > 800)
-        {
-            AstroPosX = 800;
-        }
-        else
-        {
-            AstroPosX += movementSpeed;
+void updateLaser(Laser& laser) {
+    if (laser.active) {
+        laser.y -= laserspeed;
+        if (laser.y <= 0) {
+            laser.active = false;
         }
     }
-    if (IsKeyDown(KEY_LEFT)) {
-        if (AstroPosX - movementSpeed < 0)
-        {
-            AstroPosX = 0;
-        }
-        else
-        {
-            AstroPosX -= movementSpeed;
-        }
-
-    }
-    if (IsKeyDown(KEY_UP)) {
-        if (AstroPosy - movementSpeed < 0)
-        {
-            AstroPosy = 0;
-        }
-        else
-        {
-            AstroPosy -= movementSpeed;
-        }
-
-    }
-    if (IsKeyDown(KEY_DOWN)) {
-        if (AstroPosy +  movementSpeed > 800)
-        {
-            AstroPosy = 800;
-        }
-        else
-        {
-            AstroPosy += movementSpeed;
-        }
-
-    }
-
 }
-void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particles, Texture2D TextWindow) {
 
+void updateLaserParticles(std::vector<LaserParticle>& particles) {
+    for (auto& particle : particles) {
+        if (particle.active) {
+            particle.position.x += particle.velocity.x;
+            particle.position.y += particle.velocity.y;
+            particle.lifeSpan--;
+            if (particle.lifeSpan <= 0 || particle.position.y <= 0) {
+                particle.active = false;
+            }
+        }
+    }
+}
+
+void updateParticles(std::vector<Particle>& particles) {
+    for (auto& particle : particles) {
+        if (particle.active) {
+            particle.position.x += particle.velocity.x;
+            particle.position.y += particle.velocity.y;
+        }
+    }
+}
+
+void updateLaserPositionAndIntensity(const Laser& laser) {
+    laserPosition.x = laser.x - 25;
+    laserPosition.y = laser.y;
+    laserIntensity = 5.0;
+    if (laserPosition.y <= 0) {
+        laserPosition.y = 1000;
+        laserPosition.x = 1000;
+    }
+}
+
+void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particles, Texture2D TextWindow) {
 
     if (asteroid.active) {
         asteroid.y += asteroidspeed;
@@ -113,7 +108,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
             DrawTexture(TextWindow, 105, 210, GRAY);
             useShader = 0;
             laserspeed = 0;
-            movementSpeed = 0;
+            MovementSpeed = 0;
             asteroidspeed = 0;
             AsteroidSpawnTime = 999999;
             IsShootingAllowed = 0;
@@ -126,7 +121,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 DrawRectangleRec(answear2, BLANK);
                 DrawTextEx(font, "2. 4R", { 450, 425 }, 30, 1, WHITE);
                 DrawRectangleRec(answear3, BLANK);
-                DrawTextEx(font, "3. 2R", { 140, 535}, 30, 1, WHITE);
+                DrawTextEx(font, "3. 2R", { 140, 535 }, 30, 1, WHITE);
                 DrawRectangleRec(answear4, BLANK);
                 DrawTextEx(font, "4. None of the above", { 450, 535 }, 28, 1, WHITE);
 
@@ -359,7 +354,7 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 QuestionNumber = GetRandomValue(1, 10);
                 IsQuestionAnsweared = 0;
                 laserspeed = 7;
-                movementSpeed = 4;
+                MovementSpeed = 4;
                 asteroidspeed = 2;
                 AsteroidSpawnTime = 4;
                 IsShootingAllowed = 1;
@@ -382,128 +377,6 @@ void updateAsteroid(Asteroid& asteroid, Laser& laser, vector<Particle>& particle
                 particles.push_back(particle);
             }
         }
-    }
-}
-void updateLaser(Laser& laser) {
-    if (laser.active) {
-        laser.y -= laserspeed;
-        if (laser.y <= 0) {
-            laser.active = false;
-        }
-    }
-}
-
-void updateLaserParticles(std::vector<LaserParticle>& particles) {
-    for (auto& particle : particles) {
-        if (particle.active) {
-            particle.position.x += particle.velocity.x;
-            particle.position.y += particle.velocity.y;
-            particle.lifeSpan--;
-            if (particle.lifeSpan <= 0 || particle.position.y <= 0) {
-                particle.active = false;
-            }
-        }
-    }
-}
-
-void updateParticles(std::vector<Particle>& particles) {
-    for (auto& particle : particles) {
-        if (particle.active) {
-            particle.position.x += particle.velocity.x;
-            particle.position.y += particle.velocity.y;
-        }
-    }
-}
-
-void updateLaserPositionAndIntensity(const Laser& laser) {
-    laserPosition.x = laser.x - 25;
-    laserPosition.y = laser.y;
-    laserIntensity = 5.0;
-    if (laserPosition.y <= 0) {
-        laserPosition.y = 1000;
-        laserPosition.x = 1000;
-    }
-}
-
-void updateBossLaser(BossLaser& bossLaser) {
-    if (bossLaser.active) {
-        bossLaser.y += 25;
-        if (bossLaser.y >= 800) {
-            bossLaser.active = false;
-        }
-    }
-}
-
-void updateBossLaserParticles(std::vector<BossLaserParticle>& particles) {
-    for (auto& particle : particles) {
-        if (particle.active) {
-            particle.position.x += particle.velocity.x;
-            particle.position.y += particle.velocity.y;
-            particle.lifeSpan--;
-            if (particle.lifeSpan <= 0 || particle.position.y >= 800) {
-                particle.active = false;
-            }
-        }
-    }
-}
-
-
-float smooth(float a, float b, float t) {
-    return a + t * (b - a);
-}
-
-void bossShoot(std::vector<LaserParticle>& laserParticles, int bossx) {
-    for (int i = 0; i < 10; i++) {
-        
-        LaserParticle particle;
-        particle.position = { static_cast<float>(bossx), static_cast<float>(50) };
-        particle.velocity = { static_cast<float>(GetRandomValue(-2, 2)), static_cast<float>(GetRandomValue(-2, 2)) };
-        particle.color = BLUE; 
-        particle.radius = GetRandomValue(1, 3);
-        particle.lifeSpan = GetRandomValue(10, 30);
-        particle.active = true;
-        laserParticles.push_back(particle);
-    }
-}
-void bossmovement(int &bossx)
-{
-    int direction = GetRandomValue(1, 2);
-    float target = bossx;
-    if (direction == 1) {
-        target -= 5;
-        if (target <= 0) {
-            target = 0; 
-        }
-    }
-    else {
-        target += 5;
-        if (target >= 800) {
-            target = 800;
-        }
-    }
-
-    bossx = smooth(bossx, target, 0.1);
-}
-
-void HandleLaserBossCollision(Laser& laser, int& bossHealth, int bossx) {
-    if (laser.active) {
-        Rectangle laserRect = { laser.x, laser.y, 5, 10 }; 
-        Rectangle bossRect = { bossx, 50, 500, 250 };
-        
-        if (CheckCollisionRecs(laserRect, bossRect)) {
-            bossHealth--; 
-            laser.active = false; 
-            laser.y = 1000;
-        }
-    }
-}
-
-void HandlePlayerHitByBossLaser(int& AstroPosX, int& AstroPosy, BossLaser bossLaser) {
-    Rectangle playerRect = { AstroPosX, AstroPosy, 100, 80 }; 
-    Rectangle laserRect = { bossLaser.x, bossLaser.y, 20, 50 }; 
-
-    if (CheckCollisionRecs(playerRect, laserRect)) {
-        EndGame = 1;
     }
 }
 
@@ -599,7 +472,7 @@ void initgame()
                 DrawTexture(boss, bossx, 50, BLUE);
                 ambientStrength = 0.07;
                 SetShaderValue(lighting, ambientStrengthLocation, &ambientStrength, SHADER_UNIFORM_FLOAT);
-                movement(AstroPosX, AstroPosy);
+                movement(AstroPosX, AstroPosy,MovementSpeed);
                 if (IsKeyPressed(KEY_SPACE) && IsShootingAllowed == 1) {
                     laser.active = true;
                     laser.x = AstroPosX + 25;
@@ -644,7 +517,7 @@ void initgame()
                 drawBossLaser(bossLaser);
                 bossmovement(bossx);
                 updateLaser(laser);
-                HandlePlayerHitByBossLaser(AstroPosX, AstroPosy, bossLaser);
+                HandlePlayerHitByBossLaser(AstroPosX, AstroPosy, bossLaser,EndGame);
                 HandleLaserBossCollision(laser, bossHealth, bossx);
                 if (bossHealth == 0){
                 IsShootingAllowed = 0;
@@ -672,7 +545,7 @@ void initgame()
             else
             {
 
-                movement(AstroPosX, AstroPosy);
+                movement(AstroPosX, AstroPosy,MovementSpeed);
                 if (IsSound == 0)
                 {
                     PlaySound(bgm);

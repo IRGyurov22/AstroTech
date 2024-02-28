@@ -19,13 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Draws.cpp" />
+    <ClCompile Include="bossfunctions.cpp" />
+    <ClCompile Include="draws.cpp" />
     <ClCompile Include="functions.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="movement.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Draws.h" />
+    <ClInclude Include="bossfunctions.h" />
+    <ClInclude Include="draws.h" />
     <ClInclude Include="functions.h" />
+    <ClInclude Include="movement.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
